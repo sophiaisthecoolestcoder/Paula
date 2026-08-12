@@ -3,6 +3,33 @@
    A quiet, gallery-like minimalist layout. Typeface: Helvetica Neue.
    ========================================================================== */
 
+/* Fonts --------------------------------------------------------------------
+   PP Pangaia (Pangram Pangram Foundry) — used for titles and large display.
+   Free-for-Personal-Use edition; see assets/fonts/ (EULA + README).
+   Only the weight actually referenced in CSS is downloaded by the browser.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "PP Pangaia";
+  src: url("../assets/fonts/PPPangaia-Ultralight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Pangaia";
+  src: url("../assets/fonts/PPPangaia-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Pangaia";
+  src: url("../assets/fonts/PPPangaia-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Warm, archival paper palette */
   --color-bg: #f3f1ec;
@@ -11,6 +38,7 @@
   --color-line: rgba(26, 23, 20, 0.14);
 
   --font: "Helvetica Neue", Helvetica, Arial, "Segoe UI", Roboto, sans-serif;
+  --font-title: "PP Pangaia", "Iowan Old Style", Georgia, "Times New Roman", serif;
 
   --measure: 60ch;          /* comfortable reading width */
   --max-width: 76rem;
@@ -150,10 +178,11 @@ a:focus-visible { text-decoration: underline; }
 }
 .intro__name {
   margin: 0;
-  font-size: clamp(2.4rem, 8vw, 5.5rem);
+  font-family: var(--font-title);
+  font-size: clamp(2.6rem, 8.5vw, 6rem);
   font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 .intro__role {
   margin: 1rem 0 0;
@@ -202,9 +231,10 @@ a:focus-visible { text-decoration: underline; }
 }
 .work__title {
   margin: 0;
-  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  font-family: var(--font-title);
+  font-size: clamp(1.5rem, 3.6vw, 2.25rem);
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 .work__spec {
   margin: 0;

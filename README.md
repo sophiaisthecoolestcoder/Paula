@@ -13,7 +13,9 @@ Plain, dependency-free static site:
 - **CSS** — one custom stylesheet, CSS variables, no framework
 - **JavaScript** — minimal vanilla JS (footer year + nav scrollspy);
   the site works fully without it
-- **Typeface** — Helvetica Neue, with Helvetica/Arial fallbacks
+- **Typefaces** — body in Helvetica Neue; titles and large display text in
+  **PP Pangaia** (licensed — add the font files, see
+  [`assets/fonts/README.md`](assets/fonts/README.md))
 
 No build step is required.
 

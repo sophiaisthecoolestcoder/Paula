@@ -2,6 +2,8 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+._*
+Icon?
 
 # Editor / IDE
 .vscode/
