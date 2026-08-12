@@ -54,19 +54,23 @@
     var closeBtn = box.querySelector(".lightbox__close");
     var prevBtn = box.querySelector(".lightbox__prev");
     var nextBtn = box.querySelector(".lightbox__next");
-    var current = 0;
     var lastFocused = null;
 
-    // Single image → no need for prev/next
-    if (thumbs.length < 2) { prevBtn.style.display = "none"; nextBtn.style.display = "none"; }
+    // Group images by their work — prev/next stays within a single work.
+    var group = [];   // current work's images
+    var current = 0;
 
     function show(i) {
-      current = (i + thumbs.length) % thumbs.length;
-      var img = thumbs[current];
+      current = (i + group.length) % group.length;
+      var img = group[current];
       boxImg.setAttribute("src", img.currentSrc || img.src);
       boxImg.setAttribute("alt", img.getAttribute("alt") || "");
     }
-    function openBox(i) {
+    function openBox(imgs, i) {
+      group = imgs;
+      var multi = group.length > 1;
+      prevBtn.style.display = multi ? "" : "none";
+      nextBtn.style.display = multi ? "" : "none";
       show(i);
       box.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -80,12 +84,15 @@
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    thumbs.forEach(function (img, i) {
-      img.setAttribute("role", "button");
-      img.setAttribute("tabindex", "0");
-      img.addEventListener("click", function () { openBox(i); });
-      img.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBox(i); }
+    Array.prototype.slice.call(document.querySelectorAll(".work")).forEach(function (work) {
+      var imgs = Array.prototype.slice.call(work.querySelectorAll(".work__figure img"));
+      imgs.forEach(function (img, i) {
+        img.setAttribute("role", "button");
+        img.setAttribute("tabindex", "0");
+        img.addEventListener("click", function () { openBox(imgs, i); });
+        img.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBox(imgs, i); }
+        });
       });
     });
 
@@ -97,8 +104,8 @@
     document.addEventListener("keydown", function (e) {
       if (box.getAttribute("aria-hidden") !== "false") return;
       if (e.key === "Escape") closeBox();
-      else if (e.key === "ArrowLeft" && thumbs.length > 1) show(current - 1);
-      else if (e.key === "ArrowRight" && thumbs.length > 1) show(current + 1);
+      else if (e.key === "ArrowLeft" && group.length > 1) show(current - 1);
+      else if (e.key === "ArrowRight" && group.length > 1) show(current + 1);
     });
   }
 
