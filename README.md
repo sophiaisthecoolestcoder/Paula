@@ -11,8 +11,9 @@ Plain, dependency-free static site:
 
 - **HTML** — a single semantic page with anchor navigation
 - **CSS** — one custom stylesheet, CSS variables, no framework
-- **JavaScript** — minimal vanilla JS (footer year + nav scrollspy);
-  the site works fully without it
+- **JavaScript** — vanilla JS for the EN/DE language switch, an image
+  lightbox in the Artwork section, footer year, and nav scrollspy; the site
+  still works without it (defaults to English, images viewable inline)
 - **Typefaces** — body in Helvetica Neue; titles and large display text in
   **PP Pangaia** (licensed — add the font files, see
   [`assets/fonts/README.md`](assets/fonts/README.md))
@@ -21,12 +22,19 @@ No build step is required.
 
 ## Sections
 
+The site is bilingual — **English by default**, with an EN/DE switch in the
+header (choice remembered via `localStorage`). Each translatable element carries
+both languages (`.lang-en` / `.lang-de`); CSS shows the active one.
+
 - **About** (Über mich) — statement + portrait
-- **Artwork** (Kunst) — *Fiction*, *Deepfake Diaries*, *ghost poem*;
-  each work's description unfolds on click (native `<details>`)
+- **Artwork** (Kunst) — *Ghost Stories*, *Fiction*, *Deepfake Diaries*
+  (newest first); descriptions unfold on click, and images open in a lightbox
 - **Biography** (Biographie)
 - **Exhibitions** (Ausstellungen)
 - **Contact** (Kontakt)
+
+> **Translations:** the German artist statement / work descriptions and the
+> English biography lines are drafts to review — refine the wording as needed.
 
 ## Structure
 
