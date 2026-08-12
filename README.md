@@ -9,26 +9,51 @@ Official website for the artist **Paula Schierholt** — a static, minimalist si
 
 Plain, dependency-free static site:
 
-- **HTML** — semantic markup
-- **CSS** — a small custom stylesheet with CSS variables
-- **JavaScript** — minimal vanilla JS
+- **HTML** — a single semantic page with anchor navigation
+- **CSS** — one custom stylesheet, CSS variables, no framework
+- **JavaScript** — minimal vanilla JS (footer year + nav scrollspy);
+  the site works fully without it
+- **Typeface** — Helvetica Neue, with Helvetica/Arial fallbacks
 
 No build step is required.
+
+## Sections
+
+- **About** (Über mich) — statement + portrait
+- **Artwork** (Kunst) — *Fiction*, *Deepfake Diaries*, *ghost poem*;
+  each work's description unfolds on click (native `<details>`)
+- **Biography** (Biographie)
+- **Exhibitions** (Ausstellungen)
+- **Contact** (Kontakt)
 
 ## Structure
 
 ```
 .
-├── index.html          # Entry page
+├── index.html              # The page
 ├── css/
-│   └── style.css       # Base stylesheet
+│   └── style.css           # Stylesheet
 ├── js/
-│   └── main.js         # Site scripts
-├── assets/             # Images, icons, media
-│   └── favicon.svg
+│   └── main.js             # Progressive-enhancement scripts
+├── assets/
+│   ├── favicon.svg
+│   ├── img/                # Web-optimised images used by the site
+│   └── originals/          # Full-resolution source images
 ├── .gitignore
+├── .editorconfig
 ├── LICENSE
 └── README.md
+```
+
+## Images
+
+`assets/img/` holds web-optimised versions (long edge ≤ 2000px) generated
+from the full-resolution files kept in `assets/originals/`. Regenerate an
+optimised image with macOS `sips`, e.g.:
+
+```bash
+sips -s format jpeg -s formatOptions 80 -Z 2000 \
+  assets/originals/fiction-1.jpg --out assets/img/fiction-1.jpg
 ```
 
 ## Development
