@@ -59,6 +59,7 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 4.5rem;
+  overflow-x: clip;   /* contain the full-bleed cover; keeps sticky header intact */
 }
 
 body {
@@ -187,11 +188,13 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 .section:first-child { border-top: 0; }
 
-/* Cover — mixed montage of works, fills the first view --------------------- */
+/* Cover — mixed montage of works, fills the first view (full-bleed) --------- */
 .cover {
   min-height: calc(100vh - 3.75rem);
   min-height: calc(100svh - 3.75rem);
+  margin-inline: calc(50% - 50vw);   /* break out of the centred column */
   margin-bottom: clamp(1rem, 3vw, 2rem);
+  padding-inline: var(--gutter);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,10 +204,11 @@ html[data-lang="de"] .lang-en { display: none; }
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.4rem, 1.1vw, 0.75rem);
+  gap: clamp(0.4rem, 1.1vw, 0.85rem);
+  max-width: 74rem;
 }
 .cover__montage img {
-  height: clamp(7rem, 13vw, 10rem);
+  height: clamp(9rem, 16vw, 14rem);
   width: auto;
 }
 .cover + .section { border-top: 0; }
@@ -267,7 +271,6 @@ html[data-lang="de"] .lang-en { display: none; }
   margin: 0;
   color: var(--color-muted);
   font-size: var(--text);
-  max-width: 26rem;
   text-align: right;
 }
 .work__year { display: block; }
