@@ -109,6 +109,26 @@
     });
   }
 
+  // Hide header on scroll down, reveal on scroll up --------------------------
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var lastY = window.pageYOffset || 0;
+    var ticking = false;
+    function onHeaderScroll() {
+      var y = window.pageYOffset || 0;
+      if (y > lastY && y > header.offsetHeight) {
+        header.classList.add("site-header--hidden");
+      } else if (y < lastY) {
+        header.classList.remove("site-header--hidden");
+      }
+      lastY = y <= 0 ? 0 : y;
+      ticking = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { window.requestAnimationFrame(onHeaderScroll); ticking = true; }
+    }, { passive: true });
+  }
+
   // Scrollspy: mark the nav link of the section currently in view -------------
   var navLinks = Array.prototype.slice.call(
     document.querySelectorAll(".site-nav a[href^='#']")
