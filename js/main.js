@@ -7,6 +7,10 @@
 
   var root = document.documentElement;
 
+  // Always start at the top on reload (don't restore mid-page scroll) ---------
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (!location.hash) window.scrollTo(0, 0);
+
   // Footer year --------------------------------------------------------------
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
