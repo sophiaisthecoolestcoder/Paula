@@ -43,11 +43,9 @@
   --font-title: "PP Pangaia", "Iowan Old Style", Georgia, "Times New Roman", serif;
 
   --measure: 56ch;                /* reading width */
-  --max-width: 82rem;
-  --gutter: clamp(1.25rem, 4vw, 4.5rem);
-  --section-gap: clamp(3.75rem, 8vw, 7rem);
-
-  --media-width: 46rem;           /* artwork gallery width — keeps images calm */
+  --max-width: 54rem;             /* centred content column */
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-gap: clamp(3.5rem, 7vw, 6rem);
 }
 
 /* Reset --------------------------------------------------------------------- */
@@ -115,16 +113,17 @@ html[data-lang="de"] .lang-en { display: none; }
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
-  padding: 0.9rem var(--gutter);
+  padding-block: 0.9rem;
+  padding-inline: max(var(--gutter), calc((100% - var(--max-width)) / 2));
   background: color-mix(in srgb, var(--color-bg) 86%, transparent);
   backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid var(--color-line);
 }
 
 .site-title {
-  font-size: 0.78rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
@@ -184,6 +183,23 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 .section:first-child { border-top: 0; }
 
+/* Cover placeholder (top of page — to be replaced with real content) ------- */
+.cover {
+  min-height: clamp(17rem, 56vh, 32rem);
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed color-mix(in srgb, var(--color-fg) 22%, transparent);
+  color: var(--color-muted);
+}
+.cover__label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.cover + .section { border-top: 0; }
+
 .section__head {
   margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
 }
@@ -227,14 +243,12 @@ html[data-lang="de"] .lang-en { display: none; }
   flex-wrap: wrap;
   gap: 0.4rem 1.5rem;
   margin-bottom: clamp(1.1rem, 2.4vw, 1.75rem);
-  max-width: var(--media-width);
 }
 .work__title {
   margin: 0;
-  font-family: var(--font-title);
-  font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
   font-weight: 500;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.01em;
 }
 .work__spec {
   margin: 0;
@@ -250,7 +264,6 @@ html[data-lang="de"] .lang-en { display: none; }
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(0.75rem, 1.8vw, 1.5rem);
   align-items: start;
-  max-width: var(--media-width);
 }
 .work__figure { margin: 0; }
 .work__figure img {
@@ -267,7 +280,6 @@ html[data-lang="de"] .lang-en { display: none; }
 /* Unfolding description ----------------------------------------------------- */
 .work__text {
   margin-top: clamp(1rem, 2vw, 1.4rem);
-  max-width: var(--measure);
   border-top: 1px solid var(--color-line);
 }
 .work__text > summary {
@@ -304,6 +316,7 @@ html[data-lang="de"] .lang-en { display: none; }
 
 .work__prose {
   padding-top: 0.6rem;
+  max-width: var(--measure);
   color: var(--color-soft);
   font-size: 0.92em;
 }
