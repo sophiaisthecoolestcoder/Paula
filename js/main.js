@@ -35,7 +35,7 @@
     });
   }
 
-  // Lightbox for artwork images ----------------------------------------------
+  // Lightbox for artwork images (with prev/next) -----------------------------
   var thumbs = Array.prototype.slice.call(document.querySelectorAll(".work__figure img"));
   if (thumbs.length) {
     var box = document.createElement("div");
@@ -44,17 +44,30 @@
     box.setAttribute("role", "dialog");
     box.setAttribute("aria-modal", "true");
     box.innerHTML =
-      '<button type="button" class="lightbox__close" aria-label="Close">×</button>' +
-      '<img class="lightbox__img" alt="" />';
+      '<button type="button" class="lightbox__nav lightbox__prev" aria-label="Previous image">‹</button>' +
+      '<img class="lightbox__img" alt="" />' +
+      '<button type="button" class="lightbox__nav lightbox__next" aria-label="Next image">›</button>' +
+      '<button type="button" class="lightbox__close" aria-label="Close">×</button>';
     document.body.appendChild(box);
 
     var boxImg = box.querySelector(".lightbox__img");
     var closeBtn = box.querySelector(".lightbox__close");
+    var prevBtn = box.querySelector(".lightbox__prev");
+    var nextBtn = box.querySelector(".lightbox__next");
+    var current = 0;
     var lastFocused = null;
 
-    function openBox(src, alt) {
-      boxImg.setAttribute("src", src);
-      boxImg.setAttribute("alt", alt || "");
+    // Single image → no need for prev/next
+    if (thumbs.length < 2) { prevBtn.style.display = "none"; nextBtn.style.display = "none"; }
+
+    function show(i) {
+      current = (i + thumbs.length) % thumbs.length;
+      var img = thumbs[current];
+      boxImg.setAttribute("src", img.currentSrc || img.src);
+      boxImg.setAttribute("alt", img.getAttribute("alt") || "");
+    }
+    function openBox(i) {
+      show(i);
       box.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
       lastFocused = document.activeElement;
@@ -67,25 +80,25 @@
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    thumbs.forEach(function (img) {
+    thumbs.forEach(function (img, i) {
       img.setAttribute("role", "button");
       img.setAttribute("tabindex", "0");
-      img.addEventListener("click", function () {
-        openBox(img.currentSrc || img.src, img.getAttribute("alt"));
-      });
+      img.addEventListener("click", function () { openBox(i); });
       img.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openBox(img.currentSrc || img.src, img.getAttribute("alt"));
-        }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBox(i); }
       });
     });
 
+    prevBtn.addEventListener("click", function (e) { e.stopPropagation(); show(current - 1); });
+    nextBtn.addEventListener("click", function (e) { e.stopPropagation(); show(current + 1); });
     box.addEventListener("click", function (e) {
       if (e.target === box || e.target === closeBtn) closeBox();
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && box.getAttribute("aria-hidden") === "false") closeBox();
+      if (box.getAttribute("aria-hidden") !== "false") return;
+      if (e.key === "Escape") closeBox();
+      else if (e.key === "ArrowLeft" && thumbs.length > 1) show(current - 1);
+      else if (e.key === "ArrowRight" && thumbs.length > 1) show(current + 1);
     });
   }
 
