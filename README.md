@@ -1,6 +1,6 @@
-# Paula Schierholt
+# Paula 
 
-Official website for the artist **Paula Schierholt** — a static, minimalist site.
+Official website for the artist **Paula** — a static, minimalist site.
 
 > This repository currently contains the **foundation only**. Design and content
 > will be added according to specifications provided later.
