@@ -1,0 +1,9 @@
+{
+  // Cloudflare Worker (static assets) — must match your existing Worker name
+  // exactly, otherwise a *new* Worker would be created instead of updating this one.
+  "name": "paula",
+  "compatibility_date": "2024-11-01",
+  "assets": {
+    "directory": "."
+  }
+}

@@ -1,0 +1,13 @@
+# Files that should NOT be published as part of the website
+.git
+.github
+node_modules
+.assetsignore
+.editorconfig
+.gitignore
+wrangler.jsonc
+README.md
+LICENSE
+assets/originals
+assets/fonts/README.md
+assets/fonts/EULA-PangramPangram-FreeForPersonalUse.pdf
