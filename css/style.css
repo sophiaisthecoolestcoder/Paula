@@ -228,22 +228,46 @@ html[data-lang="de"] .lang-en { display: none; }
   justify-content: center;
   scroll-snap-align: start;
 }
+/* Video wallpaper behind the name */
+.cover__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #6b7379;   /* mid grey shown before the video paints */
+}
+.cover__bg video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  display: block;
+}
+
 .cover__scroll {
   position: absolute;
   left: 50%;
   bottom: clamp(1rem, 3vh, 2.5rem);
+  z-index: 1;
   transform: translateX(-50%);
-  color: var(--color-muted);
+  color: rgba(244, 242, 236, 0.75);
   transition: color 0.2s ease;
 }
 .cover__scroll:hover,
-.cover__scroll:focus-visible { color: var(--color-fg); }
+.cover__scroll:focus-visible { color: #f4f2ec; }
 .cover__scroll svg { display: block; animation: scrollHint 1.8s ease-in-out infinite; }
 @keyframes scrollHint {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(0.3rem); }
 }
 .cover__name {
+  position: relative;
+  z-index: 1;                       /* above the video */
   margin: 0;
   font-family: var(--font-title);
   font-size: clamp(2.5rem, 11vw, 8rem);
@@ -253,6 +277,8 @@ html[data-lang="de"] .lang-en { display: none; }
   text-transform: uppercase;        /* big (capital) letters */
   text-align: center;
   text-wrap: balance;
+  color: #f4f2ec;                   /* light, for legibility over the wallpaper */
+  text-shadow: 0 1px 22px rgba(18, 20, 24, 0.4);
 }
 
 .section__head {
