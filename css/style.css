@@ -384,17 +384,54 @@ html[data-lang="de"] .lang-en { display: none; }
 .contact a:hover,
 .contact a:focus-visible { color: var(--color-fg); }
 
+/* Legal pages --------------------------------------------------------------- */
+.legal__body {
+  max-width: var(--measure);
+  font-size: var(--text);
+  color: var(--color-soft);
+}
+.legal__body p { margin: 0 0 1em; }
+.legal__body p:last-child { margin-bottom: 0; }
+.legal__note { color: var(--color-muted); }
+
 /* Footer -------------------------------------------------------------------- */
 .site-footer {
   max-width: var(--max-width);
   margin-inline: auto;
-  padding: 2.25rem var(--gutter) 3rem;
+  padding: clamp(2rem, 4vw, 3rem) var(--gutter) 3rem;
   border-top: 1px solid var(--color-line);
   color: var(--color-muted);
+}
+.site-footer__cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(2rem, 6vw, 5rem);
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+.footer-nav__title {
+  margin: 0 0 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.footer-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.footer-nav a { color: var(--color-muted); font-size: 0.8rem; }
+.footer-nav a:hover,
+.footer-nav a:focus-visible { color: var(--color-fg); text-decoration: none; }
+.site-footer__copy {
+  margin: 0;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
 }
-.site-footer p { margin: 0; }
 
 /* Lightbox ------------------------------------------------------------------ */
 .lightbox {
