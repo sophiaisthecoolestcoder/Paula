@@ -235,7 +235,6 @@ html[data-lang="de"] .lang-en { display: none; }
   text-align: center;
   text-wrap: balance;
 }
-.cover + .section { border-top: 0; }
 
 .section__head {
   margin-bottom: clamp(1.4rem, 3vw, 2.25rem);
