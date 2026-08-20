@@ -248,6 +248,14 @@ html[data-lang="de"] .lang-en { display: none; }
   object-fit: cover;
   display: block;
 }
+/* Semi-translucent scrim to lift the white title off the video */
+.cover__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 20, 24, 0.32);
+  pointer-events: none;
+}
 
 .cover__scroll {
   position: absolute;
