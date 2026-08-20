@@ -39,77 +39,89 @@
     });
   }
 
-  // Lightbox for artwork images (with prev/next) -----------------------------
-  var thumbs = Array.prototype.slice.call(document.querySelectorAll(".work__figure img"));
-  if (thumbs.length) {
-    var box = document.createElement("div");
-    box.className = "lightbox";
-    box.setAttribute("aria-hidden", "true");
-    box.setAttribute("role", "dialog");
-    box.setAttribute("aria-modal", "true");
-    box.innerHTML =
-      '<button type="button" class="lightbox__nav lightbox__prev" aria-label="Previous image">‹</button>' +
-      '<img class="lightbox__img" alt="" />' +
-      '<button type="button" class="lightbox__nav lightbox__next" aria-label="Next image">›</button>' +
-      '<button type="button" class="lightbox__close" aria-label="Close">×</button>';
-    document.body.appendChild(box);
+  // Artwork modal — click a title to show its photos, title and text --------
+  var worklistBtns = Array.prototype.slice.call(document.querySelectorAll(".worklist__title"));
+  if (worklistBtns.length) {
+    var wm = document.createElement("div");
+    wm.className = "wmodal";
+    wm.setAttribute("aria-hidden", "true");
+    wm.setAttribute("role", "dialog");
+    wm.setAttribute("aria-modal", "true");
+    wm.innerHTML =
+      '<button type="button" class="wmodal__close" aria-label="Close">\u00d7</button>' +
+      '<div class="wmodal__scroll"><div class="wmodal__inner">' +
+        '<div class="wmodal__gallery"></div>' +
+        '<div class="wmodal__meta">' +
+          '<h3 class="wmodal__title"></h3>' +
+          '<p class="wmodal__spec"></p>' +
+          '<div class="wmodal__textwrap"></div>' +
+        '</div>' +
+      '</div></div>';
+    document.body.appendChild(wm);
 
-    var boxImg = box.querySelector(".lightbox__img");
-    var closeBtn = box.querySelector(".lightbox__close");
-    var prevBtn = box.querySelector(".lightbox__prev");
-    var nextBtn = box.querySelector(".lightbox__next");
-    var lastFocused = null;
+    var wmGallery = wm.querySelector(".wmodal__gallery");
+    var wmTitle = wm.querySelector(".wmodal__title");
+    var wmSpec = wm.querySelector(".wmodal__spec");
+    var wmText = wm.querySelector(".wmodal__textwrap");
+    var wmClose = wm.querySelector(".wmodal__close");
+    var wmLastFocus = null;
 
-    // Group images by their work — prev/next stays within a single work.
-    var group = [];   // current work's images
-    var current = 0;
+    var READ_MORE =
+      '<summary>' +
+      '<span class="work__toggle-label work__toggle-label--closed"><span class="lang-en">read more</span><span class="lang-de">Mehr lesen</span></span>' +
+      '<span class="work__toggle-label work__toggle-label--open"><span class="lang-en">read less</span><span class="lang-de">Weniger lesen</span></span>' +
+      '</summary>';
 
-    function show(i) {
-      current = (i + group.length) % group.length;
-      var img = group[current];
-      boxImg.setAttribute("src", img.currentSrc || img.src);
-      boxImg.setAttribute("alt", img.getAttribute("alt") || "");
-    }
-    function openBox(imgs, i) {
-      group = imgs;
-      var multi = group.length > 1;
-      prevBtn.style.display = multi ? "" : "none";
-      nextBtn.style.display = multi ? "" : "none";
-      show(i);
-      box.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-      lastFocused = document.activeElement;
-      closeBtn.focus();
-    }
-    function closeBox() {
-      box.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-      boxImg.setAttribute("src", "");
-      if (lastFocused && lastFocused.focus) lastFocused.focus();
-    }
-
-    Array.prototype.slice.call(document.querySelectorAll(".work")).forEach(function (work) {
-      var imgs = Array.prototype.slice.call(work.querySelectorAll(".work__figure img"));
-      imgs.forEach(function (img, i) {
-        img.setAttribute("role", "button");
-        img.setAttribute("tabindex", "0");
-        img.addEventListener("click", function () { openBox(imgs, i); });
-        img.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBox(imgs, i); }
-        });
+    function wmOpen(id) {
+      var data = document.getElementById(id);
+      if (!data) return;
+      var imgs = data.querySelectorAll(".work__gallery img");
+      wmGallery.innerHTML = "";
+      Array.prototype.forEach.call(imgs, function (img) {
+        var el = document.createElement("img");
+        el.setAttribute("src", img.getAttribute("src"));
+        el.setAttribute("alt", img.getAttribute("alt") || "");
+        wmGallery.appendChild(el);
       });
-    });
+      wmGallery.setAttribute("data-count", String(imgs.length));
 
-    prevBtn.addEventListener("click", function (e) { e.stopPropagation(); show(current - 1); });
-    nextBtn.addEventListener("click", function (e) { e.stopPropagation(); show(current + 1); });
-    box.addEventListener("click", function (e) {
-      if (e.target === box || e.target === closeBtn) closeBox();
+      wmTitle.textContent = data.getAttribute("data-title") || "";
+
+      var spec = data.querySelector(".work__spec");
+      if (spec) { wmSpec.innerHTML = spec.innerHTML; wmSpec.hidden = false; }
+      else { wmSpec.innerHTML = ""; wmSpec.hidden = true; }
+
+      wmText.innerHTML = "";
+      var desc = data.querySelector(".work__desc");
+      if (desc) {
+        var det = document.createElement("details");
+        det.className = "work__text";
+        det.innerHTML = READ_MORE + '<div class="work__prose">' + desc.innerHTML + "</div>";
+        wmText.appendChild(det);
+      }
+
+      wm.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      wmLastFocus = document.activeElement;
+      wmClose.focus();
+      wm.scrollTop = 0;
+    }
+    function wmCloseFn() {
+      wm.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (wmLastFocus && wmLastFocus.focus) wmLastFocus.focus();
+    }
+
+    worklistBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () { wmOpen(btn.getAttribute("data-work")); });
+    });
+    wm.addEventListener("click", function (e) {
+      if (e.target === wm || e.target === wmClose ||
+          e.target.classList.contains("wmodal__scroll") ||
+          e.target.classList.contains("wmodal__inner")) wmCloseFn();
     });
     document.addEventListener("keydown", function (e) {
-      if (box.getAttribute("aria-hidden") !== "false") return;
-      if (e.key === "Escape") closeBox();
-      else if (e.key === "ArrowLeft" && group.length > 1) show(current - 1);
-      else if (e.key === "ArrowRight" && group.length > 1) show(current + 1);
+      if (e.key === "Escape" && wm.getAttribute("aria-hidden") === "false") wmCloseFn();
     });
   }
 
@@ -131,6 +143,28 @@
     window.addEventListener("scroll", function () {
       if (!ticking) { window.requestAnimationFrame(onHeaderScroll); ticking = true; }
     }, { passive: true });
+  }
+
+  // Subtle parallax on scroll (respects reduced motion) ---------------------
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
+  if (parallaxEls.length && !reduceMotion) {
+    var pTicking = false;
+    function onParallax() {
+      var mid = window.innerHeight / 2;
+      parallaxEls.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var offset = (r.top + r.height / 2) - mid;
+        var speed = parseFloat(el.getAttribute("data-parallax")) || 0.08;
+        el.style.transform = "translate3d(0," + (-offset * speed).toFixed(2) + "px, 0)";
+      });
+      pTicking = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!pTicking) { requestAnimationFrame(onParallax); pTicking = true; }
+    }, { passive: true });
+    window.addEventListener("resize", onParallax);
+    onParallax();
   }
 
   // Scrollspy: mark the nav link of the section currently in view -------------

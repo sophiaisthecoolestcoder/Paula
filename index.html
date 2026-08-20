@@ -31,7 +31,7 @@
 
     <!-- Cover — name -------------------------------------------------------->
     <section class="cover">
-      <h1 class="cover__name">Paula Schierholt</h1>
+      <h1 class="cover__name" data-parallax="0.05">Paula Schierholt</h1>
     </section>
 
     <!-- About ---------------------------------------------------------------->
@@ -40,7 +40,7 @@
         <h2 class="section__title"><span class="lang-en">About</span><span class="lang-de">Über mich</span></h2>
       </header>
       <div class="about">
-        <figure class="about__figure">
+        <figure class="about__figure" data-parallax="0.07">
           <img src="assets/img/paula.jpg" alt="Portrait of Paula Schierholt"
                width="1440" height="1600" loading="lazy" />
         </figure>
@@ -57,48 +57,38 @@
         <h2 class="section__title"><span class="lang-en">Artwork</span><span class="lang-de">Kunst</span></h2>
       </header>
 
-      <!-- Ghost Stories (newest first) -->
-      <article class="work">
-        <div class="work__intro">
-          <h3 class="work__title">Ghost Stories</h3>
-          <p class="work__spec">
-            <span class="work__year">2026</span>
-          </p>
-        </div>
-        <div class="work__gallery">
-          <figure class="work__figure">
-            <img src="assets/img/ghost-stories-1.jpg" alt="Ghost Stories — a translucent print on the ground showing four faint, ghostly photographic images."
-                 width="1275" height="1700" loading="lazy" />
-          </figure>
-        </div>
-      </article>
+      <ul class="worklist">
+        <li><button type="button" class="worklist__title" data-work="wd-ghost" aria-haspopup="dialog">Ghost Stories</button></li>
+        <li><button type="button" class="worklist__title" data-work="wd-fiction" aria-haspopup="dialog">Fiction</button></li>
+        <li><button type="button" class="worklist__title" data-work="wd-deepfake" aria-haspopup="dialog">Deepfake Diaries</button></li>
+      </ul>
 
-      <!-- Fiction -->
-      <article class="work">
-        <div class="work__intro">
-          <h3 class="work__title">Fiction</h3>
+      <!-- Work details — shown in a modal when a title is clicked -->
+      <div class="workdata" hidden>
+        <article id="wd-ghost" data-title="Ghost Stories">
+          <div class="work__gallery">
+            <figure class="work__figure">
+              <img src="assets/img/ghost-stories-1.jpg" alt="Ghost Stories — a translucent print on the ground showing four faint, ghostly photographic images." width="1275" height="1700" />
+            </figure>
+          </div>
+          <p class="work__spec"><span class="work__year">2026</span></p>
+        </article>
+
+        <article id="wd-fiction" data-title="Fiction">
+          <div class="work__gallery">
+            <figure class="work__figure">
+              <img src="assets/img/fiction-1.jpg" alt="Fiction — installation view: black-and-white archive photographs mounted between acrylic glass, suspended from the ceiling." width="1501" height="2000" />
+            </figure>
+            <figure class="work__figure">
+              <img src="assets/img/fiction-2.jpg" alt="Fiction — detail: cropped archive photographs held between panes of acrylic glass." width="1501" height="2000" />
+            </figure>
+          </div>
           <p class="work__spec">
             <span class="lang-en">Installation, transparent paper between acrylic glass, archive photos</span>
             <span class="lang-de">Installation, Transparentpapier zwischen Acrylglas, Archivfotografien</span>
             <span class="work__year">2026</span>
           </p>
-        </div>
-        <div class="work__gallery">
-          <figure class="work__figure">
-            <img src="assets/img/fiction-1.jpg" alt="Fiction — installation view: black-and-white archive photographs mounted between acrylic glass, suspended from the ceiling."
-                 width="1501" height="2000" loading="lazy" />
-          </figure>
-          <figure class="work__figure">
-            <img src="assets/img/fiction-2.jpg" alt="Fiction — detail: cropped archive photographs held between panes of acrylic glass."
-                 width="1501" height="2000" loading="lazy" />
-          </figure>
-        </div>
-        <details class="work__text">
-          <summary>
-            <span class="work__toggle-label work__toggle-label--closed"><span class="lang-en">read more</span><span class="lang-de">Mehr lesen</span></span>
-            <span class="work__toggle-label work__toggle-label--open"><span class="lang-en">read less</span><span class="lang-de">Weniger lesen</span></span>
-          </summary>
-          <div class="work__prose">
+          <div class="work__desc">
             <div class="lang-en">
               <p>Two family photographs were cut into pieces of equal size. By cutting them up, the background is brought to the foreground. Connections in meaning are revealed, some that have always existed, others that emerged only through the act of cutting. Tiny images take on gigantic proportions. Individual glances, postures, and movements are viewed in isolation and convey more than the original photograph ever could. One discovers hidden dynamics and listens to family members as they tell or withhold their stories. Through these fragments, the photo series opens up a fictional space in which the viewer fills in the gaps with their own narratives, stories drawn from their own memories to complete the incomplete image.</p>
             </div>
@@ -106,35 +96,23 @@
               <p>Zwei Familienfotografien wurden in gleich große Stücke zerschnitten. Durch das Zerschneiden rückt der Hintergrund in den Vordergrund. Bedeutungszusammenhänge werden sichtbar – manche, die schon immer bestanden, andere, die erst durch den Akt des Schneidens entstanden sind. Winzige Bilder nehmen gigantische Ausmaße an. Einzelne Blicke, Haltungen und Bewegungen werden isoliert betrachtet und sagen mehr aus, als es die ursprüngliche Fotografie je könnte. Man entdeckt verborgene Dynamiken und hört den Familienmitgliedern zu, wie sie ihre Geschichten erzählen oder verschweigen. Durch diese Fragmente eröffnet die Fotoserie einen fiktiven Raum, in dem die Betrachtenden die Lücken mit ihren eigenen Erzählungen füllen – Geschichten aus ihren eigenen Erinnerungen, um das unvollständige Bild zu vervollständigen.</p>
             </div>
           </div>
-        </details>
-      </article>
+        </article>
 
-      <!-- Deepfake Diaries -->
-      <article class="work">
-        <div class="work__intro">
-          <h3 class="work__title">Deepfake Diaries</h3>
+        <article id="wd-deepfake" data-title="Deepfake Diaries">
+          <div class="work__gallery">
+            <figure class="work__figure">
+              <img src="assets/img/deepfake-diaries-1.jpg" alt="Deepfake Diaries — installation view: three illuminated light boxes on a grey wall, each showing a sepia portrait." width="1501" height="2000" />
+            </figure>
+            <figure class="work__figure">
+              <img src="assets/img/deepfake-diaries-2.jpg" alt="Deepfake Diaries — detail: a single illuminated light box showing a softly overlaid portrait." width="1501" height="2000" />
+            </figure>
+          </div>
           <p class="work__spec">
             <span class="lang-en">Prints on transparent paper, light box</span>
             <span class="lang-de">Drucke auf Transparentpapier, Leuchtkasten</span>
             <span class="work__year">2025</span>
           </p>
-        </div>
-        <div class="work__gallery">
-          <figure class="work__figure">
-            <img src="assets/img/deepfake-diaries-1.jpg" alt="Deepfake Diaries — installation view: three illuminated light boxes on a grey wall, each showing a sepia portrait."
-                 width="1501" height="2000" loading="lazy" />
-          </figure>
-          <figure class="work__figure">
-            <img src="assets/img/deepfake-diaries-2.jpg" alt="Deepfake Diaries — detail: a single illuminated light box showing a softly overlaid portrait."
-                 width="1501" height="2000" loading="lazy" />
-          </figure>
-        </div>
-        <details class="work__text">
-          <summary>
-            <span class="work__toggle-label work__toggle-label--closed"><span class="lang-en">read more</span><span class="lang-de">Mehr lesen</span></span>
-            <span class="work__toggle-label work__toggle-label--open"><span class="lang-en">read less</span><span class="lang-de">Weniger lesen</span></span>
-          </summary>
-          <div class="work__prose">
+          <div class="work__desc">
             <div class="lang-en">
               <p>Reconstructions of past realities are an integral part of historical scholarship. With deepfakes, a new form of visual reconstruction has emerged: it looks deceptively real, but is always merely a replica of what once was. This is because the image draws on traces, photos, letters, voices, and documents, that are preserved in archives and are rarely complete. It is a work with remnants, with fragments.</p>
               <p>The series <em>Deepfake Diaries</em> examines the transformation of memory culture through the use of artificial intelligence. The starting point is the video format of the same name by Terra X, which brings historical figures to life using deepfakes. Here, the digitally generated face of Rosa Luxemburg meets the corresponding archival photograph. Both are printed on transparent paper, lie on top of one another, and together form a new face. The simulation is so precise that the original and the reconstruction almost perfectly align. Only minor deviations betray the illusion.</p>
@@ -146,8 +124,8 @@
               <p>Doch was geschieht, wenn Simulationen zum einzigen Zeugnis einer vergangenen Epoche werden? Werden künftige Generationen noch zwischen Original und Simulation unterscheiden können? Historische Bilder streben nach Neutralität. Und doch spiegeln sie nicht nur die Vergangenheit wider, sondern auch die Gegenwart, die Narrative und die Machtverhältnisse ihres jeweiligen Kontexts.</p>
             </div>
           </div>
-        </details>
-      </article>
+        </article>
+      </div>
     </section>
 
     <!-- Biography ------------------------------------------------------------>
