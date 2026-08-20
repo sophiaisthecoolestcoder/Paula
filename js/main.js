@@ -54,8 +54,8 @@
         '<div class="wmodal__meta">' +
           '<h3 class="wmodal__title"></h3>' +
           '<p class="wmodal__spec"></p>' +
-          '<div class="wmodal__textwrap"></div>' +
         '</div>' +
+        '<div class="wmodal__textwrap"></div>' +
       '</div></div>';
     document.body.appendChild(wm);
 
@@ -97,6 +97,12 @@
         var det = document.createElement("details");
         det.className = "work__text";
         det.innerHTML = READ_MORE + '<div class="work__prose">' + desc.innerHTML + "</div>";
+        det.addEventListener("toggle", function () {
+          if (det.open) {
+            var prose = det.querySelector(".work__prose");
+            if (prose) prose.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
         wmText.appendChild(det);
       }
 
