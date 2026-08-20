@@ -30,6 +30,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "PP Pangaia";
+  src: url("../assets/fonts/PPPangaia-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
   /* Warm, archival paper palette */
@@ -111,19 +118,27 @@ html[data-lang="de"] .lang-en { display: none; }
   position: sticky;
   top: 0;
   z-index: 50;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   gap: 0.5rem 1.5rem;
   padding-block: 0.9rem;
   padding-inline: max(var(--gutter), calc((100% - var(--max-width)) / 2));
   background: color-mix(in srgb, var(--color-bg) 86%, transparent);
   backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1px solid var(--color-line);
   transition: transform 0.3s ease;
 }
 .site-header--hidden { transform: translateY(-100%); }
+.site-title { justify-self: start; }
+.site-nav { justify-self: center; }
+.lang-switch { justify-self: end; }
+
+@media (max-width: 46rem) {
+  .site-header { grid-template-columns: 1fr auto; row-gap: 0.6rem; }
+  .site-title { grid-column: 1; }
+  .lang-switch { grid-column: 2; }
+  .site-nav { grid-column: 1 / -1; justify-self: center; }
+}
 
 .site-title {
   font-family: var(--font-title);
@@ -139,8 +154,9 @@ html[data-lang="de"] .lang-en { display: none; }
   gap: 0.8rem 1.25rem;
 }
 .site-nav a {
-  font-size: 0.68rem;
-  letter-spacing: 0.07em;
+  font-family: var(--font-title);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
@@ -189,7 +205,7 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 .section:first-child { border-top: 0; }
 
-/* Cover — mixed montage of works, fills the first view (full-bleed) --------- */
+/* Cover — name, fills the first view (full-bleed) -------------------------- */
 .cover {
   min-height: calc(100vh - 3.75rem);
   min-height: calc(100svh - 3.75rem);
@@ -200,17 +216,15 @@ html[data-lang="de"] .lang-en { display: none; }
   align-items: center;
   justify-content: center;
 }
-.cover__montage {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(0.4rem, 1.1vw, 0.85rem);
-  max-width: 74rem;
-}
-.cover__montage img {
-  height: clamp(9rem, 16vw, 14rem);
-  width: auto;
+.cover__name {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: clamp(2.75rem, 12vw, 8.5rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-wrap: balance;
 }
 .cover + .section { border-top: 0; }
 
@@ -272,6 +286,9 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 .work__spec {
   margin: 0;
+  font-family: var(--font-title);
+  font-style: italic;
+  font-weight: 500;
   color: var(--color-muted);
   font-size: var(--text);
   text-align: right;
@@ -405,9 +422,25 @@ html[data-lang="de"] .lang-en { display: none; }
 .site-footer__cols {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(2rem, 6vw, 5rem);
-  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  justify-content: space-between;
+  gap: 2rem 3rem;
 }
+.footer-contact {
+  font-style: normal;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.85;
+}
+.footer-contact p { margin: 0; }
+.footer-contact__name {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  color: var(--color-fg);
+  margin-bottom: 0.35rem !important;
+}
+.footer-contact a { color: inherit; }
+.footer-contact a:hover,
+.footer-contact a:focus-visible { color: var(--color-fg); }
 .footer-nav__title {
   margin: 0 0 0.7rem;
   font-size: 0.68rem;
@@ -427,6 +460,11 @@ html[data-lang="de"] .lang-en { display: none; }
 .footer-nav a { color: var(--color-muted); font-size: 0.8rem; }
 .footer-nav a:hover,
 .footer-nav a:focus-visible { color: var(--color-fg); text-decoration: none; }
+.site-footer__rule {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: clamp(1.75rem, 4vw, 2.75rem) 0 clamp(1.1rem, 2.5vw, 1.75rem);
+}
 .site-footer__copy {
   margin: 0;
   font-size: 0.72rem;
