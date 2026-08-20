@@ -61,7 +61,7 @@
   --measure: 56ch;                /* reading width */
   --max-width: 54rem;             /* centred content column */
   --gutter: clamp(1.25rem, 4vw, 3rem);
-  --section-gap: clamp(2.75rem, 5.5vw, 4.5rem);
+  --section-gap: clamp(2rem, 4vw, 3.25rem);
 }
 
 /* Reset --------------------------------------------------------------------- */
@@ -209,11 +209,6 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 
 .section {
-  min-height: 100vh;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding-block: var(--section-gap);
   border-top: 1px solid var(--color-line);
   scroll-snap-align: start;
