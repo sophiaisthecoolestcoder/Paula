@@ -11,3 +11,6 @@ LICENSE
 assets/originals
 assets/fonts/README.md
 assets/fonts/EULA-PangramPangram-FreeForPersonalUse.pdf
+*.code-workspace
+datenschutzerklaerung_paulaschierholt_com_de.pdf
+datenschutzerklaerung_paulaschierholt_com_en.pdf

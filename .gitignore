@@ -11,6 +11,10 @@ Icon?
 *.swp
 *.swo
 *~
+*.code-workspace
+
+# Local source / reference material — not part of the published site
+datenschutzerklaerung_*.pdf
 
 # Node / tooling (if added later)
 node_modules/

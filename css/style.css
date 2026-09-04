@@ -61,7 +61,7 @@
   --measure: 56ch;                /* reading width */
   --max-width: 54rem;             /* centred content column */
   --gutter: clamp(1.25rem, 4vw, 3rem);
-  --section-gap: clamp(2rem, 4vw, 3.25rem);
+  --section-gap: clamp(3rem, 7vw, 5.5rem);
 }
 
 /* Reset --------------------------------------------------------------------- */
@@ -145,7 +145,7 @@ html[data-lang="de"] .lang-en { display: none; }
   .site-header { grid-template-columns: 1fr auto; row-gap: 0.6rem; }
   .site-title { grid-column: 1; }
   .lang-switch { grid-column: 2; }
-  .site-nav { grid-column: 1 / -1; justify-self: center; }
+  .site-nav { grid-column: 1 / -1; justify-self: stretch; justify-content: center; }
 }
 
 .site-title {
@@ -162,9 +162,10 @@ html[data-lang="de"] .lang-en { display: none; }
   gap: 0.8rem 1.25rem;
 }
 .site-nav a {
-  font-family: var(--font-title);
-  font-size: 0.78rem;
-  letter-spacing: 0.13em;
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
@@ -294,11 +295,12 @@ html[data-lang="de"] .lang-en { display: none; }
 }
 .section__title {
   margin: 0;
-  font-family: var(--font-title);
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--color-soft);
 }
 
 /* About --------------------------------------------------------------------- */
@@ -478,6 +480,27 @@ html[data-lang="de"] .lang-en { display: none; }
   line-height: 1;
   z-index: 2;
 }
+/* Prev / next — move between artworks without leaving the modal */
+.wmodal__nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0.5rem clamp(0.35rem, 1.5vw, 0.9rem);
+  cursor: pointer;
+  color: var(--color-fg);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+.wmodal__nav:hover,
+.wmodal__nav:focus-visible { opacity: 1; }
+.wmodal__prev { left: clamp(0.15rem, 1.5vw, 1.25rem); }
+.wmodal__next { right: clamp(0.15rem, 1.5vw, 1.25rem); }
 .wmodal__scroll { margin: auto; width: 100%; }
 .wmodal__inner {
   max-width: 64rem;
@@ -597,11 +620,48 @@ html[data-lang="de"] .lang-en { display: none; }
 .legal__body p:last-child { margin-bottom: 0; }
 .legal__note { color: var(--color-muted); }
 
+/* Longer legal documents (privacy policy): headings, lists, emphasis blocks */
+.legal__body h2,
+.legal__body h3,
+.legal__body h4 {
+  font-family: var(--font);
+  color: var(--color-fg);
+  line-height: 1.3;
+}
+.legal__body h2 {
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin: 2.4em 0 0.8em;
+}
+.legal__body h3 {
+  font-size: 0.92rem;
+  font-weight: 500;
+  margin: 1.7em 0 0.5em;
+}
+.legal__body h4 {
+  font-size: var(--text);
+  font-weight: 600;
+  margin: 1.3em 0 0.35em;
+}
+.legal__body > .lang-en > :first-child,
+.legal__body > .lang-de > :first-child { margin-top: 0; }
+.legal__body ul { margin: 0 0 1em; padding-left: 1.15em; }
+.legal__body li { margin: 0 0 0.5em; }
+.legal__body li:last-child { margin-bottom: 0; }
+.legal__body a { text-decoration: underline; overflow-wrap: anywhere; }
+.legal__address { font-style: normal; }
+.legal__caps {                    /* the ALL-CAPS Art. 21 objection blocks */
+  font-size: var(--text-small);
+  letter-spacing: 0.01em;
+  color: var(--color-soft);
+}
+
 /* Footer -------------------------------------------------------------------- */
 .site-footer {
   max-width: var(--max-width);
   margin-inline: auto;
-  padding: clamp(2rem, 4vw, 3rem) var(--gutter) 3rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem) var(--gutter) 2rem;
   border-top: 1px solid var(--color-line);
   color: var(--color-muted);
 }
@@ -609,7 +669,7 @@ html[data-lang="de"] .lang-en { display: none; }
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 2rem 3rem;
+  gap: 1.5rem 2.5rem;
 }
 .footer-contact {
   font-style: normal;
@@ -629,7 +689,7 @@ html[data-lang="de"] .lang-en { display: none; }
 .footer-contact a:focus-visible { color: var(--color-fg); }
 .footer-nav__title {
   margin: 0 0 0.7rem;
-  font-family: var(--font-title);
+  font-family: var(--font);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -651,7 +711,7 @@ html[data-lang="de"] .lang-en { display: none; }
   border: 0;
   border-top: 1px solid var(--color-line);
   /* extend into the gutters so it matches the footer's top rule length */
-  margin: clamp(1.75rem, 4vw, 2.75rem) calc(-1 * var(--gutter)) clamp(1.1rem, 2.5vw, 1.75rem);
+  margin: clamp(1.1rem, 3vw, 1.6rem) calc(-1 * var(--gutter)) clamp(0.85rem, 2vw, 1.2rem);
 }
 .site-footer__copy {
   margin: 0;
@@ -722,4 +782,224 @@ html[data-lang="de"] .lang-en { display: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   [data-parallax] { transform: none !important; }
+}
+/* CCM19 cookie notice + settings panel — compact, subtle, on-brand -------- */
+/* Two separate modals share one look: #ccm-widget is the small corner notice,
+   #ccm-control-panel is the centered settings dialog (opened via "Settings").
+   Both are styled together so fonts, palette, borders and buttons match. */
+
+/* Shared card surface */
+#ccm-widget .ccm-modal-inner,
+#ccm-control-panel .ccm-modal-inner {
+  background: var(--color-bg) !important;
+  color: var(--color-fg) !important;
+  border: 1px solid var(--color-line) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0.6rem 2.2rem rgba(20, 20, 24, 0.16) !important;
+  font-family: var(--font) !important;
+  overflow: auto !important;
+}
+
+/* Notice: pinned to the bottom-right corner */
+#ccm-widget .ccm-modal-inner {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  right: clamp(0.75rem, 2vw, 1.5rem) !important;
+  bottom: clamp(0.75rem, 2vw, 1.5rem) !important;
+  transform: none !important;
+  margin: 0 !important;
+  width: min(27rem, calc(100vw - 1.5rem)) !important;
+  max-width: 27rem !important;
+  max-height: calc(100vh - 3rem) !important;
+  padding: 0.7rem 0.85rem !important;
+}
+
+/* Settings dialog: centered card, a little wider for the toggle list */
+#ccm-control-panel .ccm-modal-inner {
+  width: min(30rem, calc(100vw - 2rem)) !important;
+  max-width: 30rem !important;
+  max-height: calc(100vh - 3rem) !important;
+  padding: 0.9rem 1rem !important;
+}
+
+/* Titles (notice + settings) */
+#ccm-widget .ccm-widget--title,
+#ccm-widget .ccm--h1,
+#ccm-control-panel .ccm-modal--title,
+#ccm-control-panel .ccm--h1 {
+  font-family: var(--font) !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+  margin: 0 0 0.25rem !important;
+  color: var(--color-fg) !important;
+}
+
+/* Body copy, sublines, purpose descriptions */
+#ccm-widget .ccm-widget--text,
+#ccm-widget .ccm-widget--introduction,
+#ccm-widget .ccm-widget--text .ccm--p,
+#ccm-control-panel .ccm-modal--subline,
+#ccm-control-panel .ccm-modal--subline .ccm--p,
+#ccm-control-panel .ccm-control-panel--purpose--description,
+#ccm-control-panel [class*="shortdesc"] {
+  font-family: var(--font) !important;
+  font-size: 0.68rem !important;
+  line-height: 1.4 !important;
+  color: var(--color-soft) !important;
+}
+
+/* Purpose names sit a touch stronger; compact list rows + on-brand switch */
+#ccm-control-panel [id*="control-panel--name"],
+#ccm-control-panel .ccm-control-panel--purpose label {
+  font-family: var(--font) !important;
+  font-size: 0.68rem !important;
+  color: var(--color-fg) !important;
+}
+#ccm-control-panel .ccm-control-panel--purposes { margin: 0.3rem 0 0 !important; }
+#ccm-control-panel .ccm-control-panel--purpose {
+  padding: 0.5rem 0 !important;
+  border-top: 1px solid var(--color-line) !important;
+}
+#ccm-control-panel .ccm-checkbox-type--switch { accent-color: var(--color-fg) !important; }
+
+/* Button rows: one line when there's room, wrapping only on very narrow screens.
+   (The panel footer is split into a button row + a separate links sub-footer.) */
+#ccm-widget .ccm-widget--buttons,
+#ccm-control-panel .ccm--action-buttons,
+#ccm-control-panel .ccm-modal--footer:not(.ccm-link-container-sub-footer) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  margin-top: 0.55rem !important;
+}
+/* One consistent paper surface for the whole dialog. CCM defaults header/body/
+   footer to #fff (and adds a body border), which split the card into white +
+   grey zones — override so it reads as a single normal box. */
+#ccm-control-panel .ccm-modal--header,
+#ccm-control-panel .ccm-modal--body,
+#ccm-control-panel .ccm-modal--footer {
+  background: var(--color-bg) !important;
+  border-bottom: 0 !important;
+}
+#ccm-control-panel .ccm-modal--header { margin: 0 !important; padding: 0 !important; }
+/* Reorder the body so the bulk actions sit BELOW the choice list; trim padding. */
+#ccm-control-panel .ccm-modal--body {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+}
+#ccm-control-panel .ccm-control-panel--purposes { order: 1 !important; margin: 0.6rem 0 0 !important; }
+/* Withdraw / Select all / Deselect all — under the choices, compact, divided off */
+#ccm-control-panel .ccm--action-buttons {
+  order: 2 !important;
+  margin: 0 !important;
+  padding: 0.6rem 0 !important;
+  border-top: 1px solid var(--color-line) !important;
+}
+#ccm-control-panel .ccm--action-buttons .ccm--spacer-1 { flex: 1 1 auto !important; }
+/* Primary actions (Cancel / Save / Accept all): in the same field, equal space
+   above and below the row. */
+#ccm-control-panel .ccm-modal--footer:not(.ccm-link-container-sub-footer) {
+  padding: 0.8rem 0 !important;
+  border-top: 1px solid var(--color-line) !important;
+}
+/* Links sub-footer (legal links + powered-by): quiet meta row, no divider */
+#ccm-control-panel .ccm-modal--footer.ccm-link-container-sub-footer {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.3rem 1rem !important;
+  margin: 0 !important;
+  padding: 0.55rem 0 0 !important;
+  border-top: 0 !important;
+}
+/* Category-row symbols on one line: toggle, info (?) and chevron vertically
+   aligned (CCM offsets them by different amounts). */
+#ccm-control-panel .ccm-control-panel--purpose input.ccm-checkbox-type--switch.ccm-checkbox-align--right { top: 3px !important; }
+#ccm-control-panel .ccm-control-panel--purpose .ccm-info-button { top: 1px !important; }
+#ccm-control-panel .ccm-control-panel--purpose > .ccm--tree-node-toggle { top: 0 !important; align-self: flex-start !important; }
+
+/* Every action button — notice + panel top actions + panel footer — one shared look */
+#ccm-widget .ccm-widget--buttons button,
+#ccm-control-panel .ccm--action-buttons button,
+#ccm-control-panel .ccm-modal--footer button {
+  font-family: var(--font) !important;
+  font-size: 0.62rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1.2 !important;
+  padding: 0.4rem 0.55rem !important;
+  white-space: nowrap !important;
+  border-radius: 3px !important;
+  border: 1px solid var(--color-line) !important;
+  background: transparent !important;
+  color: var(--color-fg) !important;
+  cursor: pointer !important;
+}
+/* Full-width, equal-size buttons for the notice row and the panel footer actions */
+#ccm-widget .ccm-widget--buttons button,
+#ccm-control-panel .ccm-modal--footer button {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+/* The panel's top actions stay compact (not stretched full width) */
+#ccm-control-panel .ccm--action-buttons button { flex: 0 0 auto !important; }
+/* All buttons share one colour — no filled "primary", uniform across both boxes. */
+
+/* Hide CCM19's own language switcher: it renders as a large, misaligned native
+   <select> above the title. The site has its own EN/DE toggle and the banner
+   already follows the site language, so this in-banner control is redundant. */
+#ccm-widget .ccm-widget--language-switch,
+#ccm-control-panel .ccm-widget--language-switch { display: none !important; }
+
+/* Notice meta footer (legal links, language, powered-by) */
+#ccm-widget .ccm-modal--footer {
+  padding: 0.4rem 0 0 !important;
+  margin-top: 0.45rem !important;
+  background: transparent !important;
+  border-top: 1px solid var(--color-line) !important;
+}
+#ccm-widget .ccm-modal--footer,
+#ccm-widget .ccm-modal--footer a,
+#ccm-widget .ccm-powered-by,
+#ccm-widget .ccm-widget--language-select,
+#ccm-control-panel .ccm-powered-by,
+#ccm-control-panel .ccm-link-container a { font-size: 0.62rem !important; }
+
+/* "Change cookie consent" summoner — pinned to the bottom-right corner, the
+   same corner the notice box appears in. Shown by CCM19 after a consent choice.
+   The icon image is a complete badge; the container + icon must be the SAME size,
+   otherwise CCM19's box-shadow on the link peeks out past the icon as a stray box. */
+.ccm-settings-summoner {
+  position: fixed !important;
+  right: clamp(0.75rem, 2vw, 1.5rem) !important;
+  bottom: clamp(0.75rem, 2vw, 1.5rem) !important;
+  left: auto !important;
+  top: auto !important;
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  z-index: 40 !important;
+}
+/* A proper filled box (on-brand paper card) with the icon centred inside it */
+.ccm-settings-summoner--link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-line) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0.3rem 1rem rgba(20, 20, 24, 0.18) !important;
+}
+.ccm-settings-summoner--icon,
+.ccm-settings-summoner--link img {
+  width: 68% !important;
+  height: 68% !important;
+  display: block !important;
 }

@@ -42,6 +42,9 @@
   // Artwork modal — click a title to show its photos, title and text --------
   var worklistBtns = Array.prototype.slice.call(document.querySelectorAll(".worklist__title"));
   if (worklistBtns.length) {
+    // Ordered ids so prev/next can move between artworks inside the modal.
+    var workIds = worklistBtns.map(function (b) { return b.getAttribute("data-work"); });
+    var wmIndex = 0;
     var wm = document.createElement("div");
     wm.className = "wmodal";
     wm.setAttribute("aria-hidden", "true");
@@ -49,6 +52,8 @@
     wm.setAttribute("aria-modal", "true");
     wm.innerHTML =
       '<button type="button" class="wmodal__close" aria-label="Close">\u00d7</button>' +
+      '<button type="button" class="wmodal__nav wmodal__prev" aria-label="Previous artwork">\u2039</button>' +
+      '<button type="button" class="wmodal__nav wmodal__next" aria-label="Next artwork">\u203a</button>' +
       '<div class="wmodal__scroll"><div class="wmodal__inner">' +
         '<div class="wmodal__gallery"></div>' +
         '<div class="wmodal__meta">' +
@@ -64,7 +69,13 @@
     var wmSpec = wm.querySelector(".wmodal__spec");
     var wmText = wm.querySelector(".wmodal__textwrap");
     var wmClose = wm.querySelector(".wmodal__close");
+    var wmPrev = wm.querySelector(".wmodal__prev");
+    var wmNext = wm.querySelector(".wmodal__next");
+    var wmScroll = wm.querySelector(".wmodal__scroll");
     var wmLastFocus = null;
+
+    // Only offer prev/next when there is more than one artwork.
+    if (workIds.length < 2) { wmPrev.hidden = true; wmNext.hidden = true; }
 
     var READ_MORE =
       '<summary>' +
@@ -72,9 +83,11 @@
       '<span class="work__toggle-label work__toggle-label--open"><span class="lang-en">read less</span><span class="lang-de">Weniger lesen</span></span>' +
       '</summary>';
 
-    function wmOpen(id) {
+    // Populate the modal with one artwork (no show/focus side effects).
+    function wmFill(id) {
       var data = document.getElementById(id);
       if (!data) return;
+      wmIndex = workIds.indexOf(id);
       var imgs = data.querySelectorAll(".work__gallery img");
       wmGallery.innerHTML = "";
       Array.prototype.forEach.call(imgs, function (img) {
@@ -106,11 +119,21 @@
         wmText.appendChild(det);
       }
 
+      wm.scrollTop = 0;
+      if (wmScroll) wmScroll.scrollTop = 0;
+    }
+
+    function wmOpen(id) {
+      wmLastFocus = document.activeElement;
+      wmFill(id);
       wm.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
-      wmLastFocus = document.activeElement;
       wmClose.focus();
-      wm.scrollTop = 0;
+    }
+    function wmGo(delta) {
+      if (workIds.length < 2) return;
+      var i = (wmIndex + delta + workIds.length) % workIds.length;
+      wmFill(workIds[i]);
     }
     function wmCloseFn() {
       wm.setAttribute("aria-hidden", "true");
@@ -121,13 +144,18 @@
     worklistBtns.forEach(function (btn) {
       btn.addEventListener("click", function () { wmOpen(btn.getAttribute("data-work")); });
     });
+    wmPrev.addEventListener("click", function (e) { e.stopPropagation(); wmGo(-1); });
+    wmNext.addEventListener("click", function (e) { e.stopPropagation(); wmGo(1); });
     wm.addEventListener("click", function (e) {
       if (e.target === wm || e.target === wmClose ||
           e.target.classList.contains("wmodal__scroll") ||
           e.target.classList.contains("wmodal__inner")) wmCloseFn();
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && wm.getAttribute("aria-hidden") === "false") wmCloseFn();
+      if (wm.getAttribute("aria-hidden") !== "false") return;
+      if (e.key === "Escape") wmCloseFn();
+      else if (e.key === "ArrowLeft") wmGo(-1);
+      else if (e.key === "ArrowRight") wmGo(1);
     });
   }
 
