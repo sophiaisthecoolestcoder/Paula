@@ -48,27 +48,6 @@
     });
   }
 
-  // Cookie notice ------------------------------------------------------------
-  // Purely informational: this site sets no cookies and asks for no consent,
-  // because none is required (see cookies.html). The notice states that and
-  // blocks nothing. Like the language value, the "seen" flag is written only
-  // when the visitor actually dismisses it — never on page load.
-  var note = document.getElementById("cookie-note");
-  if (note) {
-    var seen = null;
-    try { seen = localStorage.getItem("noticeSeen"); } catch (e) {}
-    if (seen !== "1") {
-      note.hidden = false;
-      var noteOk = note.querySelector(".cookie-note__btn");
-      if (noteOk) {
-        noteOk.addEventListener("click", function () {
-          note.hidden = true;
-          try { localStorage.setItem("noticeSeen", "1"); } catch (e) {}
-        });
-      }
-    }
-  }
-
   // Artwork modal — click a title to show its photos, title and text --------
   var worklistBtns = Array.prototype.slice.call(document.querySelectorAll(".worklist__title"));
   if (worklistBtns.length) {
