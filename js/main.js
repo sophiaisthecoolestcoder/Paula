@@ -18,25 +18,55 @@
   // Language switch ----------------------------------------------------------
   var langButtons = Array.prototype.slice.call(document.querySelectorAll(".lang-btn"));
 
-  function setLang(lang) {
+  // Apply a language to the document. Deliberately does NOT write to storage.
+  function applyLang(lang) {
     if (lang !== "de") lang = "en";
     root.setAttribute("data-lang", lang);
     root.setAttribute("lang", lang);
     langButtons.forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.getAttribute("data-set-lang") === lang));
     });
+  }
+
+  // Remember the choice only when the visitor actively makes one. Writing on
+  // page load would place a value on the device that nobody asked for; the
+  // "strictly necessary" exemption in § 25 Abs. 2 Nr. 2 TDDDG only covers
+  // storage needed for a service the user has explicitly requested.
+  function chooseLang(lang) {
+    applyLang(lang);
     try { localStorage.setItem("lang", lang); } catch (e) {}
   }
 
   if (langButtons.length) {
     var saved = null;
     try { saved = localStorage.getItem("lang"); } catch (e) {}
-    setLang(saved === "de" ? "de" : "en");
+    applyLang(saved === "de" ? "de" : "en");
     langButtons.forEach(function (b) {
       b.addEventListener("click", function () {
-        setLang(b.getAttribute("data-set-lang"));
+        chooseLang(b.getAttribute("data-set-lang"));
       });
     });
+  }
+
+  // Cookie notice ------------------------------------------------------------
+  // Purely informational: this site sets no cookies and asks for no consent,
+  // because none is required (see cookies.html). The notice states that and
+  // blocks nothing. Like the language value, the "seen" flag is written only
+  // when the visitor actually dismisses it — never on page load.
+  var note = document.getElementById("cookie-note");
+  if (note) {
+    var seen = null;
+    try { seen = localStorage.getItem("noticeSeen"); } catch (e) {}
+    if (seen !== "1") {
+      note.hidden = false;
+      var noteOk = note.querySelector(".cookie-note__btn");
+      if (noteOk) {
+        noteOk.addEventListener("click", function () {
+          note.hidden = true;
+          try { localStorage.setItem("noticeSeen", "1"); } catch (e) {}
+        });
+      }
+    }
   }
 
   // Artwork modal — click a title to show its photos, title and text --------
