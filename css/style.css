@@ -95,8 +95,11 @@
      Delivered as half from each side (see .section), so this token is the
      number you actually see. The previous build set it as the padding on each
      side, which silently doubled it to ~144px between sections — that was not
-     a decision, it was an oversight. */
-  --section-gap: clamp(2.5rem, 5vw, 4.5rem);
+     a decision, it was an oversight.
+     R12: the floor is --space-7 (56px), not 40px. At 40px a phone's section
+     label floated halfway between the section above and its own content (36px
+     below it); 56px above puts it back with what it introduces, as on desktop. */
+  --section-gap: clamp(var(--space-7), 5vw, 4.5rem);
 
   /* Every full-width band (header, section, footer) uses this so their content
      and their rules share one left and right edge. `100%` resolves against the
@@ -155,9 +158,18 @@ html {
    to be "under the header" and scrolled the page ~430px whenever one received
    keyboard focus (on the live site too). As a scroll-margin on what is
    scrolled TO — the cover, every [id] anchor and section, everything focusable
-   below the header — the clearance is identical and the header is left out. */
+   below the header — the clearance is identical and the header is left out.
+   R11: `.section` is listed in its own right. Sections are snap points, and the
+   legal pages' one section has no id, so it had no clearance at all: on a legal
+   page long enough to scroll (the Datenschutzerklärung) proximity snapping
+   settled the page 43px down — exactly the header's height — and the
+   translucent header covered the top of the page title. Measured at 1440: the
+   title box 7px under the header, its ascenders touching the header's edge.
+   With the clearance the snap position resolves to 0. Every index section has
+   an id already, so the index is unchanged. */
 .cover,
 [id],
+.section,
 .site-main :is(a, button),
 .site-footer a {
   scroll-margin-top: calc(var(--header-h) + var(--space-4));
@@ -539,6 +551,11 @@ html[data-lang="de"] .lang-en { display: none; }
    other: the eye needs to settle before the ground changes register into the
    footer. One step up the spacing scale — not a bespoke value. */
 .site-main > .section:last-child { padding-bottom: var(--space-7); }
+/* The section under the cover takes the whole gap above it. The half-and-half
+   split assumes a section on both sides; the cover gives no half of its own, so
+   ABOUT sat 36px (20px on a phone) under the video, the tightest start on the
+   site directly under its loudest edge. R12. */
+.cover + .section { padding-top: var(--section-gap); }
 /* RULE: a rule belongs to a list, never to a section. Sections are separated
    by space and by tone. This is what removes the stack of hairlines that used
    to appear between Biography and Exhibitions. */
@@ -985,7 +1002,32 @@ h1.section__title {
    .legal__section survives as the grouping hook for the rhythm between
    sections. */
 .legal__body { --measure: none; }
-.legal__section + .legal__section { margin-top: var(--space-8); }
+
+/* Space above the page title — R11. A legal page has no cover, so its one
+   section begins directly under the header, and the half --section-gap every
+   section brings (36px at 1440, 20px on a phone) was the only space above the
+   title: it was built as the gap BETWEEN two sections, not as the opening of a
+   page. The title opens with --space-8, one step above anything inside the
+   document (the ladder below), so no heading on the page stands further from
+   what precedes it than the title does. Rem, not a clamp: the headings below
+   it keep their spacing on a phone, so the title does too. Both legal pages,
+   one rule. */
+.site-main--legal > .section:first-child { padding-top: var(--space-8); }
+
+/* THE SPACING LADDER — R12. The space above a heading follows its level, one
+   step per level, and whatever directly follows a heading sits closer to it
+   than anything before it:
+     title  --space-8 above, --space-7 to the first content
+     h2     --space-7 above (it opens each .legal__section), --space-4 below
+     h3     --space-6 above, --space-2 below
+     h4     --space-5 above, --space-2 below
+     a heading directly under another heading: --space-4
+     paragraph to paragraph, and around a list: 0.9em (.prose)
+   Round 10 made the headings smaller (20 / 16 / 14px) but left the space above
+   them at --space-8 / 7 / 6, so a 16px h3 opened with three paragraph gaps and
+   every h3 block read as a new chapter. */
+.section--legal .section__head { margin-bottom: var(--space-7); }
+.legal__section + .legal__section { margin-top: var(--space-7); }
 
 /* A heading is not running text, so it is never capped at the reading measure.
    That cap is what broke "Datenschutzerklärung" across two lines: the word is
@@ -1031,7 +1073,7 @@ h1.section__title {
   font-weight: 500;
   line-height: 1.4;
   color: var(--ink);
-  margin: var(--space-7) 0 var(--space-2);
+  margin: var(--space-6) 0 var(--space-2);
 }
 /* One clean descent — 1.25 / 1 / 0.875rem, all at weight 500 — instead of the
    old 16.3 / 14.7 / 14.0px in which h4 (600) outweighed its own parent h3
@@ -1046,12 +1088,13 @@ h1.section__title {
   font-weight: 500;
   line-height: 1.4;
   color: var(--ink);
-  margin: var(--space-6) 0 var(--space-2);
+  margin: var(--space-5) 0 var(--space-2);
 }
-/* Headings that follow another heading do not need the full run-in space. */
-.legal__body h2 + h3 { margin-top: var(--space-5); }
-.legal__body h3 + h4 { margin-top: var(--space-5); }
-.legal__body ul { margin: 0 0 1em; padding-left: 1.15em; }
+/* A heading directly under another heading belongs to it: --space-4, less than
+   the space above either of them (R12 ladder). */
+.legal__body h2 + h3,
+.legal__body h3 + h4 { margin-top: var(--space-4); }
+.legal__body ul { margin: 0 0 0.9em; padding-left: 1.15em; }
 .legal__body li { margin: 0 0 0.5em; }
 .legal__body li:last-child { margin-bottom: 0; }
 /* Inline links in running text underline; navigation links never do. Inside a

@@ -17,7 +17,11 @@ the legal pages, ending in a single full-width column (§2). Round 9 (2026-09-13
 fit phones: a single-row header with a drop-down menu, touch-specific scrolling, a fixed footer
 arrangement, and header clearance that no longer scrolls the page on focus (§7a). Round 10
 (2026-09-13) gave the legal headings a visible hierarchy and added the timeline status note and
-the link preview card (§2, §14a). Marked **R2**–**R10** below. `css/style.css`, `index.html`,
+the link preview card (§2, §14a). Round 11 (2026-09-13) gave the legal page titles real space
+under the header, and stopped the Datenschutzerklärung from resting with its title under the
+header (§2, §4, §7a). Round 12 (2026-09-13) set the space above legal headings one step per
+level, gave phones a 56px section gap and the section under the cover a full one (§2, §4).
+Marked **R2**–**R12** below. `css/style.css`, `index.html`,
 `impressum.html`, `datenschutz.html` and `js/main.js` match this document. Descriptions of
 superseded builds were removed in R10; the reasons behind the current rules were kept.
 
@@ -253,9 +257,9 @@ link" without a third specification.
 
 | Token | Size | Weight | LH | Space above | Colour | Extra |
 |---|---|---|---|---|---|---|
-| `legal/h2` | `1.25rem` (`--step-3`) | 500 | 1.35 | `--space-8` between sections | `--ink` | opens each `.legal__section`; `--space-4` beneath; no rule |
-| `legal/h3` | `1rem` (`--step-2`) | 500 | 1.4 | `--space-7` | `--ink` | `--space-5` when it directly follows an h2 |
-| `legal/h4` | `0.875rem` (`--step-1`) | 500 | 1.4 | `--space-6` | `--ink` | `--space-5` when it directly follows an h3 |
+| `legal/h2` | `1.25rem` (`--step-3`) | 500 | 1.35 | `--space-7` between sections (R12) | `--ink` | opens each `.legal__section`; `--space-4` beneath; no rule |
+| `legal/h3` | `1rem` (`--step-2`) | 500 | 1.4 | `--space-6` (R12) | `--ink` | `--space-4` when it directly follows an h2 |
+| `legal/h4` | `0.875rem` (`--step-1`) | 500 | 1.4 | `--space-5` (R12) | `--ink` | `--space-4` when it directly follows an h3 |
 | `legal/caps` | prose size | 400 | prose leading | — | prose ink | **0.06em tracking**, left-aligned, not hyphenated |
 
 **R10 — the hierarchy is visible again.** Before R10 the h2 and the h3 were both 1.25rem at
@@ -271,6 +275,75 @@ now separated from body copy by weight and colour, since there is no size left b
 > micro-label, reusing `label/sm`. It reads well for short labels — but these h4s are full
 > questions of up to 90 characters, and uppercase at that length is hard work. Rendered and
 > reverted. Case is a good subordination device only when the string is short.
+
+### The spacing ladder — R12
+
+> **The space above a legal heading steps down one level at a time, and whatever directly
+> follows a heading sits closer to it than anything before it.**
+
+| Where | Token | Visible gap, text to text |
+|---|---|---|
+| above the page title | `--space-8` | 88px box under the header (R11) |
+| title → first content | `--space-7` | 62px |
+| text → h2 (a new `.legal__section`) | `--space-7` | 64px |
+| text → h3 | `--space-6` | 43px |
+| text → h4 | `--space-5` | 31px |
+| h2 → its text | `--space-4` | 24px |
+| heading directly under a heading (h2 → h3, h3 → h4) | `--space-4` | 22–23px |
+| paragraph → paragraph, and around a list | `0.9em` (`.prose`) | 21px |
+| h3 / h4 → their text | `--space-2` | 15px |
+
+**Why it changed.** The artist found the gap after "Allgemeine Hinweise" and before "Datenerfassung
+auf dieser Website" disproportionately big and "not understandable looking at the different
+heading categories". Measured, it was: R10 made the headings 20 / 16 / 14px but left the space
+above them at `--space-8 / 7 / 6`. A 16px h3 opened with **63px**, three paragraph gaps, and a
+chapter h2 with **96px**, so every h3 block read as a new chapter while its type said
+sub-heading. Heading stacks were loose as well: an h2 stood 31px above its own first h3. One step
+down per level brings the spacing contrast back in line with the type contrast.
+
+**Measured before → after**, visible gap. Identical at 1440 and 390, and in EN and DE (69
+transitions on the Datenschutzerklärung): text → h2 96 → **64** (×3); text → h3 63 → **43** (×13);
+text → h4 43 → **31** (×3); h2 → h3 31 → **23** (×3); h3 → h4 30 → **22**; title → h2 42 → **62**;
+list → text 22.4 → **21** (the list's `1em` bottom margin now matches the paragraph's `0.9em`).
+Unchanged: paragraph gap 21, heading → text 15 / 24. A computed-style diff of every element shows
+only these margins changed on the legal pages, and nothing in the modal. Prose check PASS.
+
+### Space above the page title — R11
+
+> **On a page without a cover, the title opens with `--space-8` above it.**
+> `.site-main--legal > .section:first-child { padding-top: var(--space-8); }`
+
+**The rule.** `--space-8` sits one step above the top of the ladder these documents use for the
+space above a heading (since R12: h4 `--space-5`, h3 `--space-6`, h2 `--space-7`; at R11 it
+equalled the h2's `--space-8`), so the page title, the highest heading on the page, never has
+less room above it than any heading inside the document.
+One rule for both legal pages, in rem, identical on a phone and on a desktop, because the headings
+beneath it keep their spacing on a phone too.
+
+**Why it was wrong.** Every section brings half of `--section-gap` above and below (§4). On a
+legal page nothing precedes the one section, so that half was the only space above the title:
+**36px at 1440, 20px at 390** — a gap built to be shared between two sections, used as the
+opening of a page. On the Datenschutzerklärung at 1440 it was worse: the page rested 43px down,
+with the title's box 7px under the translucent header and its ascenders touching the header's
+edge (§7a). The artist's "it looks like the heading is even cut" was literally true there.
+
+**Rejected, rendered side by side:** `--section-gap` (72px desktop, but 40px on a phone — less
+than the 56px above every h3 on the same page, so the most important heading would have had the
+least air), and `--space-7` (56px everywhere — less than the index's 72px section gap at 1440).
+
+**Measured**, header bottom edge → title, box / ink, at the page's resting scroll position. EN and
+DE agree to within 1px.
+
+| | 1440 Imprint | 1440 Datenschutz | 390 Imprint | 390 Datenschutz |
+|---|---|---|---|---|
+| before | 36 / 45 | **−7 / 1** (resting at 43px) | 20 / 26 | 20 / 26 |
+| after | **88 / 97** | **88 / 96** | **88 / 94** | **88 / 94** |
+
+After: header text → title ink 113px at 1440, 111px at 390. Title → first content stayed at
+`--space-6` (ink 40–42px) in R11 and became `--space-7` (62px) in R12, still clearly closer to the
+text it introduces than to the header. The title's ink sits 6–9px *inside* its line box at `line-height: 1.1` — no ascender or
+umlaut overflows it — so the leading played no part in the fault. The Imprint still fits one
+screen at 1440 × 900 (document scroll 0px), footer at the bottom.
 
 ### The legal layout — R8
 
@@ -387,7 +460,7 @@ takes `--leading-snug`, the same as the legal pages' address block.
 | `--measure` | `56ch` | reading width — About text, timeline, modal caption; released on the legal pages (§2) and replaced by the gallery width for modal prose (§16a) |
 | `--max-width` | `54rem` | the one content column, on every page |
 | `--gutter` | `clamp(1.25rem, 4vw, 3rem)` | |
-| `--section-gap` | `clamp(2.5rem, 5vw, 4.5rem)` | **R3** — the gap you actually see between sections |
+| `--section-gap` | `clamp(var(--space-7), 5vw, 4.5rem)` | **R3** — the gap you actually see between sections; **R12** floor 56px (was 40px) |
 | `--pad-x` | `max(--gutter, (100% - --max-width)/2 + --gutter)` | sections, footer |
 | `--pad-x-header` | `max(--gutter, (100% - --max-width)/2)` | header only — see §7 |
 | `--header-h` | `2.7rem` / `2.75rem` below 60rem (**R9**, one row) | **measured**, not estimated |
@@ -416,9 +489,35 @@ on what gets scrolled to, no longer `scroll-padding-top` on `<html>` — see §7
 The previous build set `--section-gap` as the padding on *each* side, which silently doubled
 it: a 72px token produced a 144px gap. That was not a decision, it was an oversight, and it
 is why the spacing read as arbitrary — it was. Now the token is the number on screen: **72px
-between sections at 1440, 40px at 390**, and the same rule governs the legal pages. The one
+between sections at 1440, 56px at 390** (40px before R12), and the same rule governs the legal pages. The one
 addition is beneath the last section, which takes `--space-7`, so the eye settles before the
 ground changes register into the footer.
+
+**R11 — and above the first section of a page without a cover**, which takes `--space-8` (§2).
+The half-gap assumes a neighbour on both sides. A legal page's one section has none above it, so
+its title was left with half a gap — 36px at 1440, 20px on a phone — directly under the header.
+On the index the cover is that neighbour, and nothing there changed at R11.
+
+**R12 — the section under the cover takes the whole gap.** The cover is a neighbour without
+padding. It gave no half of its own, so ABOUT sat **36px** under the video at 1440 and **20px** on
+a phone: the tightest start on the site, directly under its loudest edge.
+`.cover + .section { padding-top: var(--section-gap); }` makes it 72px / 56px, the same as every
+other section boundary.
+
+**R12 — the phone floor is `--space-7`.** At 40px a phone's section label floated halfway between
+the section above and its own content, 36px below it. With 56px above, it reads as it does on
+desktop. From 768 to 1120px wide the gap is now 56px as well.
+
+Measured, visible gap to the next label at 1440 / 1024 / 768 / 390, EN and DE identical:
+cover → ABOUT 38 / 28 / 22 / 22 → **74 / 58 / 58 / 58**; section → next label 74 / 53 / 42 / 42 →
+**74 / 58 / 58 / 58**. Computed-style diff of every element: only the section paddings changed on
+the index, and nothing in the modal.
+
+**R12 — About carried a stray paragraph margin in English.** The English paragraph was not the
+`:last-child` of `.about__text` (the hidden German one followed it), so it kept its 12.6px bottom
+margin. On a phone, where the text is the last thing in the section, English ended 52.6px above
+ARTWORK and German 40px. Each language now has its own `<div lang>` wrapper, as in the modal and on
+the legal pages. Markup only, no wording changed; both are now 56px.
 
 **Consequence to watch:** tightening the rhythm exposed the scroll parallax. Uncapped, an
 element far from the viewport centre drifts 70–100px out of its own box, and the About
@@ -678,6 +777,19 @@ live site**, so the fault predates R9. With the padding at 0 the jump was 0. The
 (`--header-h + --space-4`) is now a `scroll-margin-top` on what is scrolled *to* — the cover,
 every `[id]` (the sections are anchors and snap points), and everything focusable in `main` and
 the footer. The header is left out by construction.
+
+**R11 — every section takes the clearance, id or not.** The index sections were caught by `[id]`;
+the legal pages' one section has no id and was missed. On a legal page long enough to scroll,
+`scroll-snap-type: y proximity` then snapped to that section's own top. Measured at 1440 on the
+Datenschutzerklärung: the page rested at **43px** — on load, and again after scrolling back to the
+top — with the title's box **7px under the translucent header**. The Imprint never showed it
+because it does not scroll at 1440, and phones never did because snapping is off on touch. The
+committed build set `scroll-padding-top` on `<html>`, which offsets every snap position, so the
+fault most likely arrived with R9's move to scroll-margin (inferred from the CSS, not rendered).
+`.section` is now listed: the page rests at **0** on load, after `scrollTo(0)` and after a wheel
+scroll back up. Verified unchanged elsewhere: a computed-style and geometry snapshot of every
+element on every page, before and after, shows zero style differences on the index and in the
+modal (EN and DE, 1440 and 390).
 
 ### Footer on phones
 
