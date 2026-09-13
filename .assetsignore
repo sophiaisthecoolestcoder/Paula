@@ -14,3 +14,7 @@ assets/fonts/EULA-PangramPangram-FreeForPersonalUse.pdf
 *.code-workspace
 datenschutzerklaerung_paulaschierholt_com_de.pdf
 datenschutzerklaerung_paulaschierholt_com_en.pdf
+# Project notes and tooling — kept in the repo, never served
+docs
+tools
+.claude

@@ -1,37 +1,36 @@
-# Paula 
+# Paula Schierholt
 
-Official website for the artist **Paula** — a static, minimalist site.
-
-> This repository currently contains the **foundation only**. Design and content
-> will be added according to specifications provided later.
+Website of the artist Paula Schierholt — <https://paulaschierholt.com>.
 
 ## Tech
 
-Plain, dependency-free static site:
+Plain, dependency-free static site. No build step, no framework.
 
-- **HTML** — a single semantic page with anchor navigation
-- **CSS** — one custom stylesheet, CSS variables, no framework
-- **JavaScript** — vanilla JS for the EN/DE language switch, an image
-  lightbox in the Artwork section, footer year, and nav scrollspy; the site
-  still works without it (defaults to English, images viewable inline)
-- **Typefaces** — body in Helvetica Neue; titles and large display text in
-  **PP Pangaia** (licensed — add the font files, see
-  [`assets/fonts/README.md`](assets/fonts/README.md))
-
-No build step is required.
+- **HTML** — `index.html` (one page with anchor navigation), plus the legal
+  pages `impressum.html` and `datenschutz.html`
+- **CSS** — one stylesheet, `css/style.css`, following
+  [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md)
+- **JavaScript** — progressive enhancement only: `js/main.js` (EN/DE switch,
+  artwork modal, mobile menu, header, parallax, scrollspy, footer year) and
+  `js/paula-wallpaper.js` (the cover video). Without JavaScript the site still
+  works and shows English.
+- **Typefaces** — body in Helvetica Neue; name, titles and dates in
+  **PP Pangaia** (see [`assets/fonts/README.md`](assets/fonts/README.md))
 
 ## Sections
 
 The site is bilingual — **English by default**, with an EN/DE switch in the
-header (choice remembered via `localStorage`). Each translatable element carries
-both languages (`.lang-en` / `.lang-de`); CSS shows the active one.
+header. The choice is remembered in `localStorage`, and only once a visitor
+clicks EN or DE. Each translatable element carries both languages
+(`.lang-en` / `.lang-de`); CSS shows the active one.
 
 - **About** (Über mich) — statement + portrait
 - **Artwork** (Kunst) — *Ghost Stories*, *Fiction*, *Deepfake Diaries*
-  (newest first); descriptions unfold on click, and images open in a lightbox
+  (newest first); a title opens the work in a modal, where the title unfolds
+  the description
 - **Biography** (Biographie)
 - **Exhibitions** (Ausstellungen)
-- **Contact** (Kontakt)
+- **Contact** (Kontakt) — in the footer
 
 > **Translations:** the German artist statement / work descriptions and the
 > English biography lines are drafts to review — refine the wording as needed.
@@ -41,18 +40,24 @@ both languages (`.lang-en` / `.lang-de`); CSS shows the active one.
 ```
 .
 ├── index.html              # The page
+├── impressum.html          # Imprint
+├── datenschutz.html        # Privacy policy
 ├── css/
 │   └── style.css           # Stylesheet
 ├── js/
-│   └── main.js             # Progressive-enhancement scripts
+│   ├── main.js             # Progressive-enhancement scripts
+│   └── paula-wallpaper.js  # Cover video
 ├── assets/
-│   ├── favicon.svg
 │   ├── img/                # Web-optimised images used by the site
-│   └── originals/          # Full-resolution source images
-├── .gitignore
-├── .editorconfig
-├── LICENSE
-└── README.md
+│   ├── originals/          # Full-resolution source images (not published)
+│   ├── wallpaper/          # Cover video and poster frames
+│   ├── fonts/              # PP Pangaia
+│   ├── icon-32.png, icon-180.png   # Site icons
+│   └── og-image.jpg        # Link preview card (1200 × 630)
+├── docs/                   # Design system and audit (not published)
+├── tools/                  # Prose consistency check (not published)
+├── wrangler.jsonc          # Cloudflare Worker configuration
+└── .assetsignore           # Everything that is never published
 ```
 
 ## Images
@@ -68,23 +73,26 @@ sips -s format jpeg -s formatOptions 80 -Z 2000 \
 
 ## Development
 
-Open `index.html` directly in a browser, or serve the folder locally:
+Serve the folder locally:
 
 ```bash
-# Python 3
 python3 -m http.server 8000
-
-# or Node
-npx serve .
 ```
 
 Then visit <http://localhost:8000>.
 
+After any change to typography, run the prose check (needs Node and Chrome):
+
+```bash
+node tools/check-prose-consistency.js
+```
+
 ## Deployment
 
-Being a static site, it can be hosted on any static host — GitHub Pages,
-Netlify, Vercel, Cloudflare Pages, etc. No configuration is needed beyond
-pointing the host at the repository root.
+The site is served by a Cloudflare Worker (`paula`, see `wrangler.jsonc`)
+connected to this repository. **Every push to `main` goes live** on
+paulaschierholt.com and paulaschierholt.de. Every file in the repository is
+published except those listed in `.assetsignore`.
 
 ## License
 

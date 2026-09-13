@@ -8,6 +8,7 @@
   <title>Impressum — Paula Schierholt</title>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png" />
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -15,7 +16,10 @@
 
   <header class="site-header">
     <a class="site-title" href="index.html">Paula Schierholt</a>
-    <nav class="site-nav" aria-label="Primary">
+    <button type="button" class="control nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="vh"><span class="lang-en">Menu</span><span class="lang-de">Menü</span></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
       <a href="index.html#about"><span class="lang-en">About</span><span class="lang-de">Über mich</span></a>
       <a href="index.html#artwork"><span class="lang-en">Artwork</span><span class="lang-de">Kunst</span></a>
       <a href="index.html#biography"><span class="lang-en">Biography</span><span class="lang-de">Biographie</span></a>
@@ -29,23 +33,49 @@
     </div>
   </header>
 
-  <main id="main" class="site-main">
-    <section class="section">
+  <main id="main" class="site-main site-main--legal">
+    <section class="section section--legal">
       <header class="section__head">
-        <h1 class="section__title">Impressum</h1>
+        <h1 class="section__title"><span class="lang-en">Imprint</span><span class="lang-de">Impressum</span></h1>
       </header>
-      <div class="legal__body" lang="de">
-        <p>
-          Paula Schierholt<br />
-          Borsigstraße 5<br />
-          10115 Berlin
-        </p>
-        <p>
-          Kontakt:<br />
-          Telefon: <a href="tel:+4917647764681">+49 176 477 646 81</a><br />
-          E-Mail: <a href="mailto:p.schierholt@udk-berlin.de">p.schierholt@udk-berlin.de</a><br />
-          Website: <a href="https://www.paulaschierholt.com">www.paulaschierholt.com</a>
-        </p>
+
+      <div class="legal__body prose">
+
+        <!-- ============================ ENGLISH ============================
+             Translation of the German original below, for convenience.
+             ================================================================ -->
+        <div class="lang-en" lang="en"><div class="legal__section">
+          <p class="legal__address">
+            Paula Schierholt<br />
+            Luxemburger Straße 1<br />
+            13353 Berlin
+          </p>
+          <p>
+            Contact:<br />
+            Telephone: <a href="tel:+4917647764681">+49 176 477 646 81</a><br />
+            Email: <a href="mailto:p.schierholt@udk-berlin.de">p.schierholt@udk-berlin.de</a><br />
+            Website: <a href="https://www.paulaschierholt.com">www.paulaschierholt.com</a>
+          </p>
+</div>
+</div>
+        <!-- ============================= GERMAN ============================
+             Legally binding version. The "Angaben gemäß § 5 TMG" heading was
+             removed at the artist's request (2026-09-13), with its English twin.
+             ================================================================ -->
+        <div class="lang-de" lang="de"><div class="legal__section">
+          <p class="legal__address">
+            Paula Schierholt<br />
+            Luxemburger Straße 1<br />
+            13353 Berlin
+          </p>
+          <p>
+            Kontakt:<br />
+            Telefon: <a href="tel:+4917647764681">+49 176 477 646 81</a><br />
+            E-Mail: <a href="mailto:p.schierholt@udk-berlin.de">p.schierholt@udk-berlin.de</a><br />
+            Website: <a href="https://www.paulaschierholt.com">www.paulaschierholt.com</a>
+          </p>
+</div>
+</div>
       </div>
     </section>
   </main>

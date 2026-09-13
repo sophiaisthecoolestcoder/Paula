@@ -5,8 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Paula Schierholt - artist working with the photographic image, found footage, archives and translucent materials." />
   <title>Paula Schierholt</title>
+  <!-- Link preview card (WhatsApp, iMessage, Instagram, Signal, LinkedIn …).
+       The image is the cover motif, as in the site icon. Its URL must be
+       absolute; paulaschierholt.de serves the same file. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Paula Schierholt" />
+  <meta property="og:title" content="Paula Schierholt" />
+  <meta property="og:description" content="Artist working with the photographic image, found footage, archives and translucent materials." />
+  <meta property="og:image" content="https://paulaschierholt.com/assets/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="A pale, ribbon-like ring with lace-like ends and its soft shadow on a grey ground: the motif of the site's cover." />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png" />
+  <!-- The two faces needed for first paint. -->
+  <link rel="preload" as="font" type="font/otf" href="assets/fonts/PPPangaia-Ultralight.otf" crossorigin />
+  <link rel="preload" as="font" type="font/otf" href="assets/fonts/PPPangaia-Medium.otf" crossorigin />
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -14,7 +31,10 @@
 
   <header class="site-header">
     <a class="site-title" href="#top">Paula Schierholt</a>
-    <nav class="site-nav" aria-label="Primary">
+    <button type="button" class="control nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="vh"><span class="lang-en">Menu</span><span class="lang-de">Menü</span></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
       <a href="#about"><span class="lang-en">About</span><span class="lang-de">Über mich</span></a>
       <a href="#artwork"><span class="lang-en">Artwork</span><span class="lang-de">Kunst</span></a>
       <a href="#biography"><span class="lang-en">Biography</span><span class="lang-de">Biographie</span></a>
@@ -37,8 +57,9 @@
                preload="metadata" poster="assets/wallpaper/poster-land.jpg"></video>
       </div>
       <h1 class="cover__name" data-parallax="0.09">Paula Schierholt</h1>
-      <a class="cover__scroll" href="#about" aria-label="Scroll down">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg>
+      <a class="cover__scroll control" href="#about">
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"/></svg>
+        <span class="vh"><span class="lang-en">Scroll to content</span><span class="lang-de">Zum Inhalt scrollen</span></span>
       </a>
     </section>
 
@@ -52,9 +73,9 @@
           <img src="assets/img/paula.jpg" alt="Portrait of Paula Schierholt"
                width="1440" height="1600" loading="lazy" />
         </figure>
-        <div class="about__text">
-          <p class="lang-en">In my artistic practice, the focus is on the photographic image and its influence on society’s visual memory. In addition to my own photography, I work extensively with found footage, often selecting cropped image details. These are intended to open up a broader space for interpretation and deliberately reflect the viewer’s gaze back upon themselves. The themes I explore in my work often draw from art history and the historical sciences. For this reason, archives play an important role in my artistic practice. In terms of materiality, I work with translucent and transparent materials such as acrylic glass.</p>
-          <p class="lang-de">Im Zentrum meiner künstlerischen Praxis steht das fotografische Bild und sein Einfluss auf das visuelle Gedächtnis der Gesellschaft. Neben meiner eigenen Fotografie arbeite ich intensiv mit Found Footage und wähle dabei häufig angeschnittene Bildausschnitte. Diese sollen einen größeren Interpretationsraum eröffnen und werfen den Blick der Betrachtenden bewusst auf sie selbst zurück. Die Themen, mit denen ich mich beschäftige, stammen oft aus der Kunstgeschichte und den historischen Wissenschaften. Aus diesem Grund spielen Archive eine wichtige Rolle in meiner künstlerischen Praxis. In Bezug auf die Materialität arbeite ich mit lichtdurchlässigen und transparenten Materialien wie Acrylglas.</p>
+        <div class="about__text prose">
+          <p class="lang-en" lang="en">In my artistic practice, the focus is on the photographic image and its influence on society’s visual memory. In addition to my own photography, I work extensively with found footage, often selecting cropped image details. These are intended to open up a broader space for interpretation and deliberately reflect the viewer’s gaze back upon themselves. The themes I explore in my work often draw from art history and the historical sciences. For this reason, archives play an important role in my artistic practice. In terms of materiality, I work with translucent and transparent materials such as acrylic glass.</p>
+          <p class="lang-de" lang="de">Im Zentrum meiner künstlerischen Praxis steht das fotografische Bild und sein Einfluss auf das visuelle Gedächtnis der Gesellschaft. Neben meiner eigenen Fotografie arbeite ich intensiv mit Found Footage und wähle dabei häufig angeschnittene Bildausschnitte. Diese sollen einen größeren Interpretationsraum eröffnen und werfen den Blick der Betrachtenden bewusst auf sie selbst zurück. Die Themen, mit denen ich mich beschäftige, stammen oft aus der Kunstgeschichte und den historischen Wissenschaften. Aus diesem Grund spielen Archive eine wichtige Rolle in meiner künstlerischen Praxis. In Bezug auf die Materialität arbeite ich mit lichtdurchlässigen und transparenten Materialien wie Acrylglas.</p>
         </div>
       </div>
     </section>
@@ -65,10 +86,13 @@
         <h2 class="section__title"><span class="lang-en">Artwork</span><span class="lang-de">Kunst</span></h2>
       </header>
 
+      <!-- data-text feeds two invisible twins (one roman, one italic) that
+           reserve the widest metrics, so the italic hover swap never resizes
+           the title. Keep it identical to the visible text. -->
       <ul class="worklist">
-        <li><button type="button" class="worklist__title" data-work="wd-ghost" aria-haspopup="dialog">Ghost Stories</button></li>
-        <li><button type="button" class="worklist__title" data-work="wd-fiction" aria-haspopup="dialog">Fiction</button></li>
-        <li><button type="button" class="worklist__title" data-work="wd-deepfake" aria-haspopup="dialog">Deepfake Diaries</button></li>
+        <li><button type="button" class="worklist__title" data-work="wd-ghost" aria-haspopup="dialog"><span class="worklist__slot" data-text="Ghost Stories"><span class="worklist__text">Ghost Stories</span></span></button></li>
+        <li><button type="button" class="worklist__title" data-work="wd-fiction" aria-haspopup="dialog"><span class="worklist__slot" data-text="Fiction"><span class="worklist__text">Fiction</span></span></button></li>
+        <li><button type="button" class="worklist__title" data-work="wd-deepfake" aria-haspopup="dialog"><span class="worklist__slot" data-text="Deepfake Diaries"><span class="worklist__text">Deepfake Diaries</span></span></button></li>
       </ul>
 
       <!-- Work details — shown in a modal when a title is clicked -->
@@ -97,10 +121,10 @@
             <span class="work__year">2026</span>
           </p>
           <div class="work__desc">
-            <div class="lang-en">
+            <div class="lang-en" lang="en">
               <p>Two family photographs were cut into pieces of equal size. By cutting them up, the background is brought to the foreground. Connections in meaning are revealed, some that have always existed, others that emerged only through the act of cutting. Tiny images take on gigantic proportions. Individual glances, postures, and movements are viewed in isolation and convey more than the original photograph ever could. One discovers hidden dynamics and listens to family members as they tell or withhold their stories. Through these fragments, the photo series opens up a fictional space in which the viewer fills in the gaps with their own narratives, stories drawn from their own memories to complete the incomplete image.</p>
             </div>
-            <div class="lang-de">
+            <div class="lang-de" lang="de">
               <p>Zwei Familienfotografien wurden in gleich große Stücke zerschnitten. Durch das Zerschneiden rückt der Hintergrund in den Vordergrund. Bedeutungszusammenhänge werden sichtbar – manche, die schon immer bestanden, andere, die erst durch den Akt des Schneidens entstanden sind. Winzige Bilder nehmen gigantische Ausmaße an. Einzelne Blicke, Haltungen und Bewegungen werden isoliert betrachtet und sagen mehr aus, als es die ursprüngliche Fotografie je könnte. Man entdeckt verborgene Dynamiken und hört den Familienmitgliedern zu, wie sie ihre Geschichten erzählen oder verschweigen. Durch diese Fragmente eröffnet die Fotoserie einen fiktiven Raum, in dem die Betrachtenden die Lücken mit ihren eigenen Erzählungen füllen – Geschichten aus ihren eigenen Erinnerungen, um das unvollständige Bild zu vervollständigen.</p>
             </div>
           </div>
@@ -121,12 +145,12 @@
             <span class="work__year">2025</span>
           </p>
           <div class="work__desc">
-            <div class="lang-en">
+            <div class="lang-en" lang="en">
               <p>Reconstructions of past realities are an integral part of historical scholarship. With deepfakes, a new form of visual reconstruction has emerged: it looks deceptively real, but is always merely a replica of what once was. This is because the image draws on traces, photos, letters, voices, and documents, that are preserved in archives and are rarely complete. It is a work with remnants, with fragments.</p>
               <p>The series <em>Deepfake Diaries</em> examines the transformation of memory culture through the use of artificial intelligence. The starting point is the video format of the same name by Terra X, which brings historical figures to life using deepfakes. Here, the digitally generated face of Rosa Luxemburg meets the corresponding archival photograph. Both are printed on transparent paper, lie on top of one another, and together form a new face. The simulation is so precise that the original and the reconstruction almost perfectly align. Only minor deviations betray the illusion.</p>
               <p>But what happens when simulations become the only evidence of a bygone era? Will future generations still be able to distinguish between the original and the simulation? Historical images strive for neutrality. Yet they reflect not only the past, but also the present, the narratives, and the power dynamics of their current context.</p>
             </div>
-            <div class="lang-de">
+            <div class="lang-de" lang="de">
               <p>Rekonstruktionen vergangener Wirklichkeiten sind fester Bestandteil der Geschichtswissenschaft. Mit Deepfakes ist eine neue Form der visuellen Rekonstruktion entstanden: Sie wirkt täuschend echt, ist aber stets nur ein Abbild dessen, was einmal war. Denn das Bild stützt sich auf Spuren – Fotos, Briefe, Stimmen und Dokumente –, die in Archiven bewahrt werden und selten vollständig sind. Es ist eine Arbeit mit Überresten, mit Fragmenten.</p>
               <p>Die Serie <em>Deepfake Diaries</em> untersucht den Wandel der Erinnerungskultur durch den Einsatz künstlicher Intelligenz. Ausgangspunkt ist das gleichnamige Videoformat von Terra X, das historische Persönlichkeiten mithilfe von Deepfakes zum Leben erweckt. Hier trifft das digital erzeugte Gesicht Rosa Luxemburgs auf die entsprechende Archivfotografie. Beide sind auf Transparentpapier gedruckt, liegen übereinander und bilden gemeinsam ein neues Gesicht. Die Simulation ist so präzise, dass Original und Rekonstruktion nahezu vollständig übereinstimmen. Nur geringe Abweichungen verraten die Illusion.</p>
               <p>Doch was geschieht, wenn Simulationen zum einzigen Zeugnis einer vergangenen Epoche werden? Werden künftige Generationen noch zwischen Original und Simulation unterscheiden können? Historische Bilder streben nach Neutralität. Und doch spiegeln sie nicht nur die Vergangenheit wider, sondern auch die Gegenwart, die Narrative und die Machtverhältnisse ihres jeweiligen Kontexts.</p>
@@ -157,7 +181,7 @@
           </dd>
         </div>
         <div class="timeline__row">
-          <dt class="timeline__year">2024</dt>
+          <dt class="timeline__year"><span class="lang-en">Since 2024</span><span class="lang-de">Seit 2024</span></dt>
           <dd class="timeline__desc">
             <span class="lang-en">Fine Arts, Berlin University of the Arts</span>
             <span class="lang-de">Bildende Kunst, Universität der Künste Berlin</span>
@@ -178,26 +202,28 @@
       <header class="section__head">
         <h2 class="section__title"><span class="lang-en">Exhibitions</span><span class="lang-de">Ausstellungen</span></h2>
       </header>
+      <!-- Titles of exhibitions and projects are quoted: “…” in English, „…“ in
+           German. Remove the "Upcoming" note once the exhibition has opened. -->
       <dl class="timeline">
         <div class="timeline__row">
-          <dt class="timeline__year"><span class="lang-en">December 2026</span><span class="lang-de">Dezember 2026</span></dt>
+          <dt class="timeline__year"><span class="lang-en">December 2026</span><span class="lang-de">Dezember 2026</span><span class="timeline__note label-sm"><span class="lang-en">Upcoming</span><span class="lang-de">Demnächst</span></span></dt>
           <dd class="timeline__desc">
-            <span class="lang-en">Seen by, Museum for Photography, Berlin</span>
-            <span class="lang-de">Seen by, Museum für Fotografie, Berlin</span>
+            <span class="lang-en">“Seen by”, Museum of Photography, Berlin</span>
+            <span class="lang-de">„Seen by“, Museum für Fotografie, Berlin</span>
           </dd>
         </div>
         <div class="timeline__row">
           <dt class="timeline__year"><span class="lang-en">July 2026</span><span class="lang-de">Juli 2026</span></dt>
           <dd class="timeline__desc">
-            <span class="lang-en">Rundgang UdK, group project “Bodies as Control &amp; Profit”, Class Bonvincini</span>
-            <span class="lang-de">Rundgang UdK, Gruppenprojekt „Bodies as Control &amp; Profit“, Klasse Bonvincini</span>
+            <span class="lang-en">Rundgang – Open Days, Berlin University of the Arts, group project “Bodies as Control &amp; Profit”, Class Bonvicini</span>
+            <span class="lang-de">Rundgang UdK, Gruppenprojekt „Bodies as Control &amp; Profit“, Klasse Bonvicini</span>
           </dd>
         </div>
         <div class="timeline__row">
           <dt class="timeline__year"><span class="lang-en">May 2026</span><span class="lang-de">Mai 2026</span></dt>
           <dd class="timeline__desc">
-            <span class="lang-en">Soft Archives, Gallery Weekend 2026 at KUNSTRAUM Potsdamer Straße</span>
-            <span class="lang-de">Soft Archives, Gallery Weekend 2026 im KUNSTRAUM Potsdamer Straße</span>
+            <span class="lang-en">“Soft Archives”, Gallery Weekend 2026 at KUNSTRAUM Potsdamer Straße</span>
+            <span class="lang-de">„Soft Archives“, Gallery Weekend 2026 im KUNSTRAUM Potsdamer Straße</span>
           </dd>
         </div>
       </dl>

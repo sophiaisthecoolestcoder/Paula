@@ -43,14 +43,45 @@
     v.addEventListener('loadedmetadata', function once () {
       v.removeEventListener('loadedmetadata', once);
       if (wasAt && isFinite(v.duration)) v.currentTime = wasAt % v.duration;
-      var p = v.play();
-      if (p && p.catch) p.catch(function () {});   // autoplay blocked -> poster stays
+      if (onScreen) play();
     });
   }
 
+  function play() {
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // autoplay blocked -> poster stays
+  }
+
+  // Mobile browsers change the viewport HEIGHT whenever the address bar
+  // collapses or expands during a scroll. Re-picking on that swapped the video
+  // between the 1280 and 1920 files mid-scroll and reloaded it, which is a
+  // visible stall. Only a change of width or orientation is a reason to switch.
   var t;
-  function debounced() { clearTimeout(t); t = setTimeout(apply, 250); }
+  var lastW = window.innerWidth;
+  var lastPortrait = window.innerHeight > window.innerWidth;
+  function debounced() {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      var w = window.innerWidth, portrait = window.innerHeight > w;
+      if (w === lastW && portrait === lastPortrait) return;
+      lastW = w; lastPortrait = portrait;
+      apply();
+    }, 250);
+  }
   window.addEventListener('resize', debounced);
   window.addEventListener('orientationchange', debounced);
+
+  // Decode only while the cover is on screen. A looping video decoding behind
+  // the rest of the page costs every scroll frame on a phone, for nothing.
+  var onScreen = true;
+  var coverObserver = null;   // kept referenced so it is never collected
+  if ('IntersectionObserver' in window) {
+    coverObserver = new IntersectionObserver(function (entries) {
+      onScreen = entries[entries.length - 1].isIntersecting;
+      if (!v.currentSrc && !v.querySelector('source')) return;
+      if (onScreen) play(); else v.pause();
+    });
+    coverObserver.observe(v.parentNode);
+  }
   apply();
 })();
